@@ -32,14 +32,14 @@ wifi:
 # to provision wifi credentials to the device.
 captive_portal:
 
-# external_components:
-#   - source: github://jjohnsen/esphome-altherma@main
-#     components: [altherma_hub]
+external_components:
+  - source: github://jjohnsen/esphome-altherma@main
+    components: [altherma_hub]
 
 # external_components:
 #   - source:
 #       type: local
-#       path: custom_components
+#       path: components
 
 uart:
   id: uart_bus
