@@ -1,6 +1,6 @@
 # About
 
-TBD
+Learn more <a href="https://github.com/jjohnsen/esphome-altherma">here</a>.
 
 # Installation
 
