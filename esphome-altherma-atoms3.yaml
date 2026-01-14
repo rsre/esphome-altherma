@@ -2,7 +2,7 @@ packages:
   base: !include base.yaml
 
 esp32:
-  board: esp32-s3-devkitc-1
+  board: m5stack-atoms3
   framework:
     type: esp-idf
 
