@@ -1,0 +1,16 @@
+packages:
+  base: !include base.yaml
+
+esphome:
+  name: esphome-altherma
+  friendly_name: ESPHome Altherma
+  name_add_mac_suffix: false
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+# OTA is required for Over-the-Air updating
+ota:
+  - platform: esphome
+    password: !secret ota_password

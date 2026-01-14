@@ -16,7 +16,6 @@ esp32:
 
 # To be able to get logs from the device via serial and api.
 logger:
-  # level: DEBUG # For developing
 
 # API is a requirement of the dashboard import.
 api:
@@ -67,6 +66,6 @@ altherma_hub:
 
 packages:
   # Uncomment below if you want to "Take Control" in ESPHome Device Builder
-  # altherma_sensors: github://jjohnsen/esphome-altherma/confs/erga_eh_da_04_08.yaml@main
+  # altherma_sensors: !include github://jjohnsen/esphome-altherma/confs/erga_eh_da_04_08.yaml@main
   # Comment below if you want to "Take Control" in ESPHome Device Builder
   altherma_sensors: !include confs/erga_eh_da_04_08.yaml
