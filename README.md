@@ -26,15 +26,23 @@ The integration enables real-time monitoring of Daikin Altherma units using ESPH
 
 Connect the ESP32 to the Altherma unit using the X10A connector:
 
-| X10A    | ESP32
-| --      | --    
-| 1 - 5V  | 5V / VIN (ESP supply voltage)
-| 2 - TX  | RX_PIN (default GPIO 16, preferably RX2)
-| 3 - RX  | TX_PIN (default GPIO 17, preferably TX2)
-| 4 - NC  | Not connected
-| 5 - GND | GND
+| X10A    | [ESP32](https://www.espboards.dev/esp32/esp32doit-devkit-v1/) | [M5Stack AtomS3 Lite](https://docs.m5stack.com/en/core/AtomS3%20Lite)
+| --      | --                                       | --
+| 1 - 5V  | 5V / VIN (ESP supply voltage)            | 5V
+| 2 - TX  | RX_PIN (default GPIO 16, preferably RX2) | G1
+| 3 - RX  | TX_PIN (default GPIO 17, preferably TX2) | G2
+| 4 - NC  | Not connected                            | Not connected
+| 5 - GND | GND                                      | G
 
 Refer to the [ESPAltherma wiring guide](https://github.com/raomin/ESPAltherma?tab=readme-ov-file#daikin-altherma-4-pin-x10a-connection) for additional details.
+
+## Successfull installs
+
+| Board                  | Heat pump                                | User      | Additional info
+| --                     | --                                       | --        | --
+| Generic esp32dev board | ERGA08DAV3 / EHVH08S23DA6V               | @jjohnsen | This repo ;)
+| M5Stack AtomS3 Lite    | DAIKIN Altherma 3 R Ech2o / EHSXB08P30EF | @maromme  | https://github.com/jjohnsen/esphome-altherma/discussions/4
+| DOIT ESP32 DEVKIT V1   | EHVX08S26CB9W                            | @MaBeniu  | https://github.com/jjohnsen/esphome-altherma/discussions/5
 
 ## Installation
 
