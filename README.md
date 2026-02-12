@@ -51,7 +51,7 @@ Refer to the [ESPAltherma wiring guide](https://github.com/raomin/ESPAltherma?ta
 
 ### Install through the browser / ESP Web Tools
 
-* Open https://jjohnsen.github.io/esphome-altherma/ and click **Connect**:
+* Open https://rsre.github.io/esphome-altherma/ and click **Connect**:
   ![Browser Install](img/browser-install-1.png)
 * Follow the guided installation process:
   * Install firmware
@@ -64,7 +64,7 @@ For more information about ESP Web Tools, visit: [ESP Web Tools](https://esphome
 #### Updating
 
 * Connect your developer board to your computer
-* Open https://jjohnsen.github.io/esphome-altherma/ and click **Connect**
+* Open https://rsre.github.io/esphome-altherma/ and click **Connect**
 * Select Update
 
 ### Install using command line tools

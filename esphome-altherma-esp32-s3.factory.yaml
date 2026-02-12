@@ -5,14 +5,14 @@ esphome:
   # This will allow for project identification,
   # configuration and updates.
   project:
-    name: jjohnsen.esphome-altherma
+    name: rsre.esphome-altherma
     version: dev # This will be replaced by the github workflows with the `release` version
 
 # This should point to the public location of the yaml file that will be adopted.
 # In this case it is the core yaml file that does not contain the extra things
 # that are provided by this factory yaml file as the user does not need these once adopted.
 dashboard_import:
-  package_import_url: github://jjohnsen/esphome-altherma/esphome-altherma-esp32-s3.yaml@main
+  package_import_url: github://rsre/esphome-altherma/esphome-altherma-esp32-s3.yaml@main
 
 # Sets up Bluetooth LE (Only on ESP32) to allow the user
 # to provision wifi credentials to the device.
@@ -34,4 +34,4 @@ update:
   - platform: http_request
     name: None
     id: update_http_request
-    source: https://github.com/jjohnsen/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json
+    source: https://github.com/rsre/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json

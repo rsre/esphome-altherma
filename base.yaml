@@ -38,7 +38,7 @@ uart:
 
 external_components:
 # Uncomment below if you want to "Take Control" in ESPHome Device Builder
-#   - source: github://jjohnsen/esphome-altherma@main
+#   - source: github://rsre/esphome-altherma@main
 #     components: [altherma_hub]
 # Comment below if you want to "Take Control" in ESPHome Device Builder
   - source:
@@ -61,6 +61,6 @@ altherma_hub:
 
 packages:
   # Uncomment below if you want to "Take Control" in ESPHome Device Builder
-  # altherma_sensors: !include github://jjohnsen/esphome-altherma/confs/erga_eh_da_04_08.yaml@main
+  # altherma_sensors: !include github://rsre/esphome-altherma/confs/erga_eh_da_04_08.yaml@main
   # Comment below if you want to "Take Control" in ESPHome Device Builder
-  altherma_sensors: !include confs/erga_eh_da_04_08.yaml
+  altherma_sensors: !include confs/epga_ea_dj_11_16.yaml
