@@ -1,6 +1,6 @@
 # About
 
-Learn more <a href="https://github.com/jjohnsen/esphome-altherma">here</a>.
+Learn more <a href="https://github.com/rsre/esphome-altherma">here</a>.
 
 # Installation
 
