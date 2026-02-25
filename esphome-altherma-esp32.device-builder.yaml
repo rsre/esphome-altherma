@@ -14,7 +14,7 @@ esp32:
 # Enable ESPHome API for dashboard import
 api:
   encryption:
-   key: !secret ha_api_key
+   key: X/jdz+YqaOO50596YXNrF0qdF88i9kFWa7IkvmM3X4s=
 
 # OTA is required for Over-the-Air updating
 ota:
