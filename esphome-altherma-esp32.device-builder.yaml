@@ -11,7 +11,7 @@ esp32:
   framework:
     type: esp-idf
 
-# Enable Home Assistant API
+# Enable ESPHome API for dashboard import
 api:
   encryption:
    key: !secret ha_api_key
