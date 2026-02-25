@@ -2,6 +2,9 @@ esphome:
   name: esphome-altherma
   friendly_name: ESPHome Altherma
   name_add_mac_suffix: false
+  project:
+      name: rsre.esphome-altherma
+      version: 0.0.11
 
 # Enable logging
 logger:
@@ -17,9 +20,17 @@ api:
    key: X/jdz+YqaOO50596YXNrF0qdF88i9kFWa7IkvmM3X4s=
 
 # OTA is required for Over-the-Air updating
+http_request:
+
 ota:
   - platform: esphome
     password: !secret ota_password
+  - platform: http_request
+
+update:
+  - platform: http_request
+    id: update_http_request
+    source: https://github.com/rsre/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json
 
 wifi:
   ssid: !secret wifi_ssid
