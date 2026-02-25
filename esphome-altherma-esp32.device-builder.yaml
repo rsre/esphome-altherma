@@ -1,0 +1,65 @@
+esphome:
+  name: esphome-altherma
+  friendly_name: ESPHome Altherma
+  name_add_mac_suffix: false
+
+# Enable logging
+logger:
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Enable Home Assistant API
+api:
+  encryption:
+   key: !secret ha_api_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  min_auth_mode: WPA3
+  
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Altherma Fallback Hotspot"
+    password: "bVMoXw4ATPxA"
+
+# In combination with the `ap` this allows the user
+# to provision wifi credentials to the device.
+captive_portal:
+
+uart:
+  id: uart_bus
+  tx_pin: GPIO17
+  rx_pin: GPIO16
+  baud_rate: 9600
+  data_bits: 8
+  parity: EVEN
+  stop_bits: 1
+
+external_components:
+  - source: github://rsre/esphome-altherma@main
+    components: [altherma_hub]
+
+altherma_hub:
+  id: altherma_hub_1
+  uart_id: uart_bus
+  update_interval: 30s
+
+# select:
+#   - platform: template
+#     name: "Heat pump Model"
+#     id: heat_pump_model
+#     options:
+#       - "ERGA D EHV-EHB-EHVZ DA series"
+#     initial_option: "ERGA D EHV-EHB-EHVZ DA series"
+#     optimistic: true
+
+packages:
+  altherma_sensors: github://rsre/esphome-altherma/confs/epga_ea_dj_11_16.yaml@main
