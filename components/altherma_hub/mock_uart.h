@@ -18,7 +18,7 @@ namespace esphome
                 generate_response(data[2]);
             }
 
-            int available() override {
+            size_t available() override {
                 return rx_buffer_.size();
             }
 
