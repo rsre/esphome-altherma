@@ -15,7 +15,6 @@ jobs:
       #### Modify below here to match your project ####
       files: |
         esphome-altherma-esp32.factory.yaml
-        esphome-altherma-atoms3.factory.yaml
       esphome-version: 2025.11.3
       combined-name: esphome-altherma
       #### Modify above here to match your project ####
