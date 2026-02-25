@@ -17,7 +17,6 @@ api:
 
 # OTA is required for Over-the-Air updating
 ota:
-  - platform: esphome
 
 wifi:
   # Set up a wifi access point using the device name above
