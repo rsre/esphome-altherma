@@ -14,8 +14,3 @@ wifi:
 ota:
   - platform: esphome
     password: !secret ota_password
-
-esp32:
-  board: esp32dev
-  framework:
-    type: esp-idf
