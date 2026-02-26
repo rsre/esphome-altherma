@@ -488,6 +488,7 @@ sensor:
 
   # {0x60,7,105,2,1,"DHW setpoint"}
   - <<: *temp
+    id: dhw_setpoint
     name: DHW setpoint
     register: 0x60
     offset: 7
@@ -496,6 +497,7 @@ sensor:
 
   # {0x60,9,105,2,1,"LW setpoint (main)"}
   - <<: *temp
+    id: lw_setpoint_main
     name: LW setpoint (main)
     register: 0x60
     offset: 9
@@ -522,6 +524,7 @@ sensor:
 
   # {0x61,2,105,2,1,"Leaving water temp. before BUH (R1T)"}
   - <<: *temp
+    id: leaving_water_temp_before_buh
     name: Leaving water temp. before BUH (R1T)
     register: 0x61
     offset: 2
@@ -554,6 +557,7 @@ sensor:
 
   # {0x61,10,105,2,1,"DHW tank temp. (R5T)"}
   - <<: *temp
+    id: dhw_tank_temp
     name: DHW tank temp. (R5T)
     register: 0x61
     offset: 10
@@ -1177,6 +1181,7 @@ binary_sensor:
 
   # {0x62,2,306,1,-1,"Storage ECO ON/OFF"}
   - <<: *binary
+    id: storage_eco
     name: Storage ECO ON⁄OFF
     register: 0x62
     offset: 2
@@ -1193,6 +1198,7 @@ binary_sensor:
 
   # {0x62,2,304,1,-1,"Powerful DHW Operation. ON/OFF"}
   - <<: *binary
+    id: powerful_dhw_op
     name: Powerful DHW Operation ON⁄OFF
     register: 0x62
     offset: 2
@@ -1201,6 +1207,7 @@ binary_sensor:
 
   # {0x62,2,303,1,-1,"Space heating Operation ON/OFF"}
   - <<: *binary
+    id: space_heating_op
     name: Space heating Operation ON⁄OFF
     register: 0x62
     offset: 2
@@ -1209,6 +1216,7 @@ binary_sensor:
 
   # {0x62,2,302,1,-1,"System OFF (ON:System off)"}
   - <<: *binary
+    id: system_off_flag
     name: System OFF (ON:System off)
     register: 0x62
     offset: 2
@@ -1249,6 +1257,7 @@ binary_sensor:
 
   # {0x62,7,305,1,-1,"Main RT Cooling"}
   - <<: *binary
+    id: main_rt_cooling
     name: Main RT Cooling
     register: 0x62
     offset: 7
@@ -1510,6 +1519,7 @@ text_sensor:
 
   # {0x60,2,315,1,-1,"I/U operation mode"}
   - <<: *text
+    id: iu_operation_mode
     name: I⁄U operation mode
     icon: mdi:state-machine
     register: 0x60
@@ -1632,3 +1642,103 @@ text_sensor:
   #   offset: 2
   #   convid: 316
   #   datasize: 1
+
+climate:
+  - platform: template
+    name: "Altherma Heat Pump"
+    icon: mdi:heat-pump
+
+    # Current leaving-water temperature (before backup heater)
+    current_temperature:
+      lambda: |-
+        if (id(leaving_water_temp_before_buh).has_state())
+          return id(leaving_water_temp_before_buh).state;
+        return NAN;
+
+    # Target leaving-water setpoint
+    target_temperature:
+      lambda: |-
+        if (id(lw_setpoint_main).has_state())
+          return id(lw_setpoint_main).state;
+        return NAN;
+
+    # HVAC mode derived from system state and I/U operation mode
+    mode:
+      lambda: |-
+        if (id(system_off_flag).state)
+          return climate::CLIMATE_MODE_OFF;
+        auto mode_str = id(iu_operation_mode).state;
+        if (mode_str == "Heating" || mode_str == "Heating + DHW")
+          return climate::CLIMATE_MODE_HEAT;
+        if (mode_str == "Cooling" || mode_str == "Cooling + DHW")
+          return climate::CLIMATE_MODE_COOL;
+        if (mode_str == "Stop")
+          return climate::CLIMATE_MODE_OFF;
+        return climate::CLIMATE_MODE_HEAT_COOL;
+
+    # Read-only: no set_mode / set_temperature lambdas defined
+    modes:
+      - "off"
+      - heat
+      - cool
+      - heat_cool
+
+    # Current action (what the heat pump is actively doing)
+    action:
+      lambda: |-
+        if (id(system_off_flag).state)
+          return climate::CLIMATE_ACTION_OFF;
+        if (id(space_heating_op).state)
+          return climate::CLIMATE_ACTION_HEATING;
+        if (id(main_rt_cooling).state)
+          return climate::CLIMATE_ACTION_COOLING;
+        return climate::CLIMATE_ACTION_IDLE;
+
+    # Visual range for leaving-water temperature
+    visual:
+      min_temperature: 20
+      max_temperature: 60
+      temperature_step: 0.5
+
+water_heater:
+  - platform: template
+    name: "Altherma DHW"
+    icon: mdi:water-boiler
+
+    # Actual DHW tank temperature
+    current_temperature:
+      lambda: |-
+        if (id(dhw_tank_temp).has_state())
+          return id(dhw_tank_temp).state;
+        return NAN;
+
+    # Target DHW setpoint
+    target_temperature:
+      lambda: |-
+        if (id(dhw_setpoint).has_state())
+          return id(dhw_setpoint).state;
+        return NAN;
+
+    # Operating mode derived from DHW binary sensors (priority: off > performance > eco > heat_pump)
+    mode:
+      lambda: |-
+        if (id(system_off_flag).state)
+          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_OFF;
+        if (id(powerful_dhw_op).state)
+          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_PERFORMANCE;
+        if (id(storage_eco).state)
+          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_ECO;
+        return water_heater::WaterHeaterMode::WATER_HEATER_MODE_HEAT_PUMP;
+
+    # Read-only: no set_action lambda
+    supported_modes:
+      - "off"
+      - eco
+      - heat_pump
+      - performance
+
+    # Visual range for DHW tank temperature
+    visual:
+      min_temperature: 40
+      max_temperature: 80
+      temperature_step: 1
