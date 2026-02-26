@@ -21,6 +21,7 @@ api:
 
 # OTA is required for Over-the-Air updating
 http_request:
+  buffer_size_rx: 4096
 
 ota:
   - platform: esphome
