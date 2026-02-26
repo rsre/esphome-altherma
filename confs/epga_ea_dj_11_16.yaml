@@ -310,7 +310,7 @@ sensor:
   # {0x21,0,105,2,-1,"INV primary current (A)"}
   - <<: *current
     id: inv_primary_current
-    name: INV primary current (A)
+    name: INV primary current
     register: 0x21
     offset: 0
     convid: 105
@@ -319,7 +319,7 @@ sensor:
   # {0x21,2,105,2,-1,"INV secondary current (A)"}
   - <<: *current
     id: inv_secondary_current
-    name: INV secondary current (A)
+    name: INV secondary current
     register: 0x21
     offset: 2
     convid: 105
@@ -619,7 +619,7 @@ sensor:
   # {0x62,9,105,2,-1,"Flow sensor (l/min)"}
   - <<: *altherma_base
     id: flow_sensor
-    name: Flow sensor (l⁄min)
+    name: Flow sensor
     icon: mdi:pump
     register: 0x62
     offset: 9
@@ -714,7 +714,7 @@ sensor:
   # Thermal output = flow (l/s) * 4.186 (kJ/kg·K) * ΔT (leaving - inlet water temp)
   - platform: template
     id: thermal_output_kw
-    name: "Thermal output (kW)"
+    name: "Thermal output"
     icon: mdi:heat-wave
     device_class: power
     state_class: measurement
@@ -733,7 +733,7 @@ sensor:
 
   # COP (electrical) = thermal output / electrical input (230V single-phase * INV primary current)
   - platform: template
-    name: "COP (electrical)"
+    name: "COP"
     icon: mdi:heat-pump
     state_class: measurement
     unit_of_measurement: ""
