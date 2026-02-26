@@ -1643,63 +1643,6 @@ text_sensor:
   #   convid: 316
   #   datasize: 1
 
-climate:
-  - platform: template
-    name: "Altherma Heat Pump"
-    icon: mdi:heat-pump
-
-    # Current leaving-water temperature (before backup heater)
-    current_temperature:
-      lambda: |-
-        if (id(leaving_water_temp_before_buh).has_state())
-          return id(leaving_water_temp_before_buh).state;
-        return NAN;
-
-    # Target leaving-water setpoint
-    target_temperature:
-      lambda: |-
-        if (id(lw_setpoint_main).has_state())
-          return id(lw_setpoint_main).state;
-        return NAN;
-
-    # HVAC mode derived from system state and I/U operation mode
-    mode:
-      lambda: |-
-        if (id(system_off_flag).state)
-          return climate::CLIMATE_MODE_OFF;
-        auto mode_str = id(iu_operation_mode).state;
-        if (mode_str == "Heating" || mode_str == "Heating + DHW")
-          return climate::CLIMATE_MODE_HEAT;
-        if (mode_str == "Cooling" || mode_str == "Cooling + DHW")
-          return climate::CLIMATE_MODE_COOL;
-        if (mode_str == "Stop")
-          return climate::CLIMATE_MODE_OFF;
-        return climate::CLIMATE_MODE_HEAT_COOL;
-
-    # Read-only: no set_mode / set_temperature lambdas defined
-    modes:
-      - "off"
-      - heat
-      - cool
-      - heat_cool
-
-    # Current action (what the heat pump is actively doing)
-    action:
-      lambda: |-
-        if (id(system_off_flag).state)
-          return climate::CLIMATE_ACTION_OFF;
-        if (id(space_heating_op).state)
-          return climate::CLIMATE_ACTION_HEATING;
-        if (id(main_rt_cooling).state)
-          return climate::CLIMATE_ACTION_COOLING;
-        return climate::CLIMATE_ACTION_IDLE;
-
-    # Visual range for leaving-water temperature
-    visual:
-      min_temperature: 20
-      max_temperature: 60
-      temperature_step: 0.5
-
 water_heater:
   - platform: template
     name: "Altherma DHW"
@@ -1741,4 +1684,4 @@ water_heater:
     visual:
       min_temperature: 40
       max_temperature: 80
-      temperature_step: 1
+      target_temperature_step: 1
