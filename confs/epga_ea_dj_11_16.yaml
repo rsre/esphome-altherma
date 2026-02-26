@@ -763,12 +763,12 @@ sensor:
   #   datasize: 2
 
   # {0x64,10,118,2,1,"Mixed water temp."}
-  - <<: *temp
-    name: Mixed water temp.
-    register: 0x64
-    offset: 10
-    convid: 118
-    datasize: 2
+  # - <<: *temp
+  #   name: Mixed water temp.
+  #   register: 0x64
+  #   offset: 10
+  #   convid: 118
+  #   datasize: 2
 
   # {0x64,12,105,2,1,"2nd Domestic hot water temperature"}
   # - <<: *temp
