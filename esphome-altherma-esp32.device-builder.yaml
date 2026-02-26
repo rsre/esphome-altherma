@@ -20,22 +20,22 @@ api:
    key: X/jdz+YqaOO50596YXNrF0qdF88i9kFWa7IkvmM3X4s=
 
 # OTA is required for Over-the-Air updating
-http_request:
-  buffer_size_rx: 4096
+# http_request:
+#   buffer_size_rx: 4096
 
 ota:
   - platform: esphome
     password: !secret ota_password
-  - platform: http_request
+  # - platform: http_request
 
-update:
-  - platform: http_request
-    id: update_http_request
-    source: https://github.com/rsre/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json
+# update:
+#   - platform: http_request
+#     id: update_http_request
+#     source: https://github.com/rsre/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json
 
-dashboard_import:
-  package_import_url: github://rsre/esphome-altherma/esphome-altherma-esp32.device-builder.yaml@main
-  import_full_config: false # or true
+# dashboard_import:
+#   package_import_url: github://rsre/esphome-altherma/esphome-altherma-esp32.device-builder.yaml@main
+#   import_full_config: false # or true
 
 wifi:
   ssid: !secret wifi_ssid
