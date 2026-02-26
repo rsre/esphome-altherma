@@ -331,37 +331,37 @@ sensor:
     convid: 105
     datasize: 2
 
-  # {0x21,6,105,2,1,"Brine inlet temp."}
-  - <<: *temp
-    name: Brine inlet temp.
-    register: 0x21
-    offset: 6
-    convid: 105
-    datasize: 2
+  # {0x21,6,105,2,1,"Brine inlet temp."}   -- not present on EPGA16DAV37 (air-to-water, no brine circuit)
+  # - <<: *temp
+  #   name: Brine inlet temp.
+  #   register: 0x21
+  #   offset: 6
+  #   convid: 105
+  #   datasize: 2
 
-  # {0x21,8,105,2,1,"Brine outlet temp."}
-  - <<: *temp
-    name: Brine outlet temp.
-    register: 0x21
-    offset: 8
-    convid: 105
-    datasize: 2
+  # {0x21,8,105,2,1,"Brine outlet temp."}   -- not present on EPGA16DAV37
+  # - <<: *temp
+  #   name: Brine outlet temp.
+  #   register: 0x21
+  #   offset: 8
+  #   convid: 105
+  #   datasize: 2
 
-  # {0x21,10,105,2,1,"Compressor outlet temperature"}
-  - <<: *temp
-    name: Compressor outlet temperature
-    register: 0x21
-    offset: 10
-    convid: 105
-    datasize: 2
+  # {0x21,10,105,2,1,"Compressor outlet temperature"}   -- returns garbage on EPGA16DAV37
+  # - <<: *temp
+  #   name: Compressor outlet temperature
+  #   register: 0x21
+  #   offset: 10
+  #   convid: 105
+  #   datasize: 2
 
-  # {0x21,12,105,2,1,"Refrig. temp. evap.Out"}
-  - <<: *temp
-    name: Refrig. temp. evap. Out
-    register: 0x21
-    offset: 12
-    convid: 105
-    datasize: 2
+  # {0x21,12,105,2,1,"Refrig. temp. evap.Out"}   -- returns garbage on EPGA16DAV37
+  # - <<: *temp
+  #   name: Refrig. temp. evap. Out
+  #   register: 0x21
+  #   offset: 12
+  #   convid: 105
+  #   datasize: 2
 
   # {0x21,15,105,1,-1,"Not in use"}
   # - <<: *altherma_base
@@ -948,13 +948,13 @@ binary_sensor:
 
   # --- In-Out separator (0xA0 / 0xA1) ---
 
-  # {0xA0,12,301,1,1,"4 way valve (Y1S)"}
-  - <<: *binary
-    name: 4 way valve (Y1S)
-    register: 0xA0
-    offset: 12
-    convid: 301
-    datasize: 1
+  # {0xA0,12,301,1,1,"4 way valve (Y1S)"}   -- register 0xA0 times out on EPGA16DAV37
+  # - <<: *binary
+  #   name: 4 way valve (Y1S)
+  #   register: 0xA0
+  #   offset: 12
+  #   convid: 301
+  #   datasize: 1
 
   # {0xA1,4,301,1,-1,"Bottom Plate Heater"}
   - <<: *binary
