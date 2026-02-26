@@ -455,23 +455,23 @@ sensor:
 
   # --- Raw water HEX temps (0xA1) ---
 
-  # {0xA1,0,119,2,1,"(Raw data)Water heat exchanger inlet temp."}
-  - <<: *temp
-    name: "(Raw data) Water heat exchanger inlet temp."
-    register: 0xA1
-    offset: 0
-    convid: 119
-    datasize: 2
-    entity_category: diagnostic
+  # {0xA1,0,119,2,1,"(Raw data)Water heat exchanger inlet temp."}   -- register 0xA1 times out on EPGA16DAV37
+  # - <<: *temp
+  #   name: "(Raw data) Water heat exchanger inlet temp."
+  #   register: 0xA1
+  #   offset: 0
+  #   convid: 119
+  #   datasize: 2
+  #   entity_category: diagnostic
 
   # {0xA1,2,119,2,1,"(Raw data)Water heat exchanger outlet temp."}
-  - <<: *temp
-    name: "(Raw data) Water heat exchanger outlet temp."
-    register: 0xA1
-    offset: 2
-    convid: 119
-    datasize: 2
-    entity_category: diagnostic
+  # - <<: *temp
+  #   name: "(Raw data) Water heat exchanger outlet temp."
+  #   register: 0xA1
+  #   offset: 2
+  #   convid: 119
+  #   datasize: 2
+  #   entity_category: diagnostic
 
   # --- Indoor Unit (0x60) ---
 
