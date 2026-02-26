@@ -13,6 +13,14 @@
 .binary: &binary
   <<: *altherma_base
 
+.voltage: &voltage
+  <<: *altherma_base
+  device_class: voltage
+  unit_of_measurement: V
+  icon: mdi:alpha-v-circle-outline
+  state_class: measurement
+  accuracy_decimals: 0
+
 .current: &current
   <<: *altherma_base
   device_class: current
@@ -325,12 +333,21 @@ sensor:
     convid: 105
     datasize: 2
 
-  # {0x21,4,105,2,1,"INV fin temp."}
-  - <<: *temp
-    name: INV fin temp.
+  # # {0x21,4,105,2,1,"INV fin temp."}
+  # - <<: *temp
+  #   name: INV fin temp.
+  #   register: 0x21
+  #   offset: 4
+  #   convid: 105
+  #   datasize: 2
+
+  # {0x21,4,101,2,-1,"Voltage (V)"}  -- same offset as INV fin temp., possible voltage on EPGA series
+  - <<: *voltage
+    id: voltage
+    name: Voltage
     register: 0x21
     offset: 4
-    convid: 105
+    convid: 101
     datasize: 2
 
   # {0x21,6,105,2,1,"Brine inlet temp."}   -- not present on EPGA16DAV37 (air-to-water, no brine circuit)
@@ -731,7 +748,7 @@ sensor:
         return NAN;
       return flow_l_per_s * 4.186f * delta_t;
 
-  # COP (electrical) = thermal output / electrical input (230V single-phase * INV primary current)
+  # COP (electrical) = thermal output / electrical input (Voltage * INV primary current)
   - platform: template
     name: "COP"
     icon: mdi:heat-pump
@@ -741,7 +758,7 @@ sensor:
     lambda: |-
       if (!id(thermal_output_kw).has_state() || !id(inv_primary_current).has_state())
         return NAN;
-      float electrical_kw = 230.0f * id(inv_primary_current).state / 1000.0f;
+      float electrical_kw = id(voltage).state * id(inv_primary_current).state / 1000.0f;
       if (electrical_kw <= 0.1f)
         return NAN;
       return id(thermal_output_kw).state / electrical_kw;
