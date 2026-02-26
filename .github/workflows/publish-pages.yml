@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'static/**'
+      - 'docs/**'
       - '.github/workflows/publish-pages.yml'
   workflow_run:
     workflows:
@@ -14,7 +14,7 @@ on:
       - completed
   pull_request:
     paths:
-      - 'static/**'
+      - 'docs/**'
       - '.github/workflows/publish-pages.yml'
 
 
@@ -35,7 +35,7 @@ jobs:
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./static
+          source: ./docs
           destination: ./output
 
       - name: Fetch firmware files
