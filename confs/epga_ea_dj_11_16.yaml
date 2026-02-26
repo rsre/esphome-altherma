@@ -1684,45 +1684,44 @@ text_sensor:
   #   convid: 316
   #   datasize: 1
 
-water_heater:
-  - platform: template
-    name: "Altherma DHW"
-    icon: mdi:water-boiler
 
-    # Actual DHW tank temperature
-    current_temperature:
-      lambda: |-
-        if (id(dhw_tank_temp).has_state())
-          return id(dhw_tank_temp).state;
-        return NAN;
+## Disables water heater entity as the port does not allow to set values.
+# water_heater:
+#   - platform: template
+#     name: "Altherma DHW"
+#     icon: mdi:water-boiler
 
-    # Target DHW setpoint
-    target_temperature:
-      lambda: |-
-        if (id(dhw_setpoint).has_state())
-          return id(dhw_setpoint).state;
-        return NAN;
+#     # Actual DHW tank temperature
+#     current_temperature: !lambda |-
+#       if (id(dhw_tank_temp).has_state())
+#         return id(dhw_tank_temp).state;
+#       return NAN;
 
-    # Operating mode derived from DHW binary sensors (priority: off > performance > eco > heat_pump)
-    mode:
-      lambda: |-
-        if (id(system_off_flag).state)
-          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_OFF;
-        if (id(powerful_dhw_op).state)
-          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_PERFORMANCE;
-        if (id(storage_eco).state)
-          return water_heater::WaterHeaterMode::WATER_HEATER_MODE_ECO;
-        return water_heater::WaterHeaterMode::WATER_HEATER_MODE_HEAT_PUMP;
+#     # Target DHW setpoint
+#     target_temperature: !lambda |-
+#       if (id(dhw_setpoint).has_state())
+#         return id(dhw_setpoint).state;
+#       return NAN;
 
-    # Read-only: no set_action lambda
-    supported_modes:
-      - "off"
-      - eco
-      - heat_pump
-      - performance
+#     # Operating mode derived from DHW binary sensors (priority: off > performance > eco > heat_pump)
+#     mode: !lambda |-
+#       if (id(system_off_flag).state)
+#         return water_heater::WaterHeaterMode::WATER_HEATER_MODE_OFF;
+#       if (id(powerful_dhw_op).state)
+#         return water_heater::WaterHeaterMode::WATER_HEATER_MODE_PERFORMANCE;
+#       if (id(storage_eco).state)
+#         return water_heater::WaterHeaterMode::WATER_HEATER_MODE_ECO;
+#       return water_heater::WaterHeaterMode::WATER_HEATER_MODE_ELECTRIC;
 
-    # Visual range for DHW tank temperature
-    visual:
-      min_temperature: 40
-      max_temperature: 80
-      target_temperature_step: 1
+#     # Read-only: no set_action lambda
+#     supported_modes:
+#       - off
+#       - eco
+#       - electric
+#       - performance
+
+#     # Visual range for DHW tank temperature
+#     visual:
+#       min_temperature: 40
+#       max_temperature: 80
+#       target_temperature_step: 1
