@@ -228,7 +228,7 @@ sensor:
 
   # {0x20,2,105,2,1,"O/U Heat Exch. Temp.(R4T)"}
   - <<: *temp
-    name: O/U Heat Exch. Temp. (R4T)
+    name: O⁄U Heat Exch. Temp. (R4T)
     register: 0x20
     offset: 2
     convid: 105
@@ -605,12 +605,12 @@ sensor:
 
   # {0x62,9,105,2,-1,"Flow sensor (l/min)"}
   - <<: *altherma_base
-    name: Flow sensor (l/min)
+    name: Flow sensor (l⁄min)
     register: 0x62
     offset: 9
     convid: 105
     datasize: 2
-    unit_of_measurement: l/min
+    unit_of_measurement: l⁄min
     state_class: measurement
     accuracy_decimals: 1
 
@@ -746,7 +746,7 @@ binary_sensor:
 
   # {0x10,1,307,1,-1,"Thermostat ON/OFF"}
   - <<: *binary
-    name: Thermostat ON/OFF (O/U)
+    name: Thermostat ON⁄OFF (O⁄U)
     register: 0x10
     offset: 1
     convid: 307
@@ -986,7 +986,7 @@ binary_sensor:
 
   # {0x60,2,303,1,-1,"Thermostat ON/OFF"}
   - <<: *binary
-    name: Thermostat ON/OFF
+    name: Thermostat ON⁄OFF
     device_class: running
     register: 0x60
     offset: 2
@@ -1151,7 +1151,7 @@ binary_sensor:
 
   # {0x61,0,307,1,-1,"Data Enable/Disable"}
   - <<: *binary
-    name: Data Enable/Disable
+    name: Data Enable⁄Disable
     register: 0x61
     offset: 0
     convid: 307
@@ -1169,7 +1169,7 @@ binary_sensor:
 
   # {0x62,2,307,1,-1,"Reheat ON/OFF"}
   - <<: *binary
-    name: Reheat ON/OFF
+    name: Reheat ON⁄OFF
     register: 0x62
     offset: 2
     convid: 307
@@ -1177,7 +1177,7 @@ binary_sensor:
 
   # {0x62,2,306,1,-1,"Storage ECO ON/OFF"}
   - <<: *binary
-    name: Storage ECO ON/OFF
+    name: Storage ECO ON⁄OFF
     register: 0x62
     offset: 2
     convid: 306
@@ -1185,7 +1185,7 @@ binary_sensor:
 
   # {0x62,2,305,1,-1,"Storage comfort ON/OFF"}
   - <<: *binary
-    name: Storage comfort ON/OFF
+    name: Storage comfort ON⁄OFF
     register: 0x62
     offset: 2
     convid: 305
@@ -1193,7 +1193,7 @@ binary_sensor:
 
   # {0x62,2,304,1,-1,"Powerful DHW Operation. ON/OFF"}
   - <<: *binary
-    name: Powerful DHW Operation ON/OFF
+    name: Powerful DHW Operation ON⁄OFF
     register: 0x62
     offset: 2
     convid: 304
@@ -1201,7 +1201,7 @@ binary_sensor:
 
   # {0x62,2,303,1,-1,"Space heating Operation ON/OFF"}
   - <<: *binary
-    name: Space heating Operation ON/OFF
+    name: Space heating Operation ON⁄OFF
     register: 0x62
     offset: 2
     convid: 303
@@ -1329,7 +1329,7 @@ binary_sensor:
 
   # {0x62,8,303,1,-1,"Tank preheat ON/OFF"}
   - <<: *binary
-    name: Tank preheat ON/OFF
+    name: Tank preheat ON⁄OFF
     register: 0x62
     offset: 8
     convid: 303
@@ -1442,7 +1442,7 @@ text_sensor:
 
   # {0x10,4,203,1,-1,"Error type"}
   - <<: *text
-    name: Error type (O/U)
+    name: Error type (O⁄U)
     register: 0x10
     offset: 4
     convid: 203
@@ -1450,7 +1450,7 @@ text_sensor:
 
   # {0x10,5,204,1,-1,"Error Code"}
   - <<: *text
-    name: Error Code (O/U)
+    name: Error Code (O⁄U)
     register: 0x10
     offset: 5
     convid: 204
@@ -1510,7 +1510,7 @@ text_sensor:
 
   # {0x60,2,315,1,-1,"I/U operation mode"}
   - <<: *text
-    name: I/U operation mode
+    name: I⁄U operation mode
     icon: mdi:state-machine
     register: 0x60
     offset: 2
@@ -1543,7 +1543,7 @@ text_sensor:
 
   # {0x60,6,219,1,-1,"I/U capacity code"}
   - <<: *text
-    name: I/U capacity code
+    name: I⁄U capacity code
     register: 0x60
     offset: 6
     convid: 219
@@ -1551,7 +1551,7 @@ text_sensor:
 
   # {0x60,15,215,1,-1,"I/U Software ID (xx)"}
   - <<: *text
-    name: I/U Software ID (xx)
+    name: I⁄U Software ID (xx)
     register: 0x60
     offset: 15
     convid: 215
@@ -1559,7 +1559,7 @@ text_sensor:
 
   # {0x60,14,215,1,-1,"I/U Software ID (yy)"}
   - <<: *text
-    name: I/U Software ID (yy)
+    name: I⁄U Software ID (yy)
     register: 0x60
     offset: 14
     convid: 215
@@ -1567,7 +1567,7 @@ text_sensor:
 
   # {0x60,16,152,1,-1,"I/U EEPROM Ver."}
   - <<: *text
-    name: I/U EEPROM Ver.
+    name: I⁄U EEPROM Ver.
     register: 0x60
     offset: 16
     convid: 152
