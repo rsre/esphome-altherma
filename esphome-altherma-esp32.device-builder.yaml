@@ -4,7 +4,7 @@ esphome:
   name_add_mac_suffix: false
   project:
       name: rsre.esphome-altherma
-      version: 0.0.16
+      version: 0.0.17
 
 # Enable logging
 logger:
