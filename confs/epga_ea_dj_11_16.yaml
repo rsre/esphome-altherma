@@ -779,7 +779,7 @@ sensor:
   #   datasize: 2
 
   # {0x64,14,152,1,1,"Target delta T heating"}
-  - <<: *altherma_base
+  - <<: *temp
     name: Target delta T heating
     register: 0x64
     offset: 14
@@ -787,7 +787,7 @@ sensor:
     datasize: 1
 
   # {0x64,15,152,1,1,"Target delta T cooling"}
-  - <<: *altherma_base
+  - <<: *temp
     name: Target delta T cooling
     register: 0x64
     offset: 15
