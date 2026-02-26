@@ -19,7 +19,7 @@
   unit_of_measurement: A
   icon: mdi:current-ac
   state_class: measurement
-  accuracy_decimals: 1  
+  accuracy_decimals: 1
 
 .pressure_bar: &pressure_bar
   <<: *altherma_base
@@ -38,22 +38,204 @@
 
 
 sensor:
-  # --- Outdoor Unit Temps ---
+  # {0x00,0,802,0,-1,"*Refrigerant type"}     -- convid 802 not a standard sensor type
+  # {0x00,0,152,1,-1,"Sensor Data Qty"}
+  # - <<: *altherma_base
+  #   name: Sensor Data Qty
+  #   register: 0x00
+  #   offset: 0
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,1,152,1,-1,"INV compressor Qty"}
+  # - <<: *altherma_base
+  #   name: INV compressor Qty
+  #   register: 0x00
+  #   offset: 1
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,2,152,1,-1,"STD compressor Qty"}
+  # - <<: *altherma_base
+  #   name: STD compressor Qty
+  #   register: 0x00
+  #   offset: 2
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,3,152,1,-1,"Fan Data Qty"}
+  # - <<: *altherma_base
+  #   name: Fan Data Qty
+  #   register: 0x00
+  #   offset: 3
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,4,152,1,-1,"Expansion Valve Data Qty"}
+  # - <<: *altherma_base
+  #   name: Expansion Valve Data Qty
+  #   register: 0x00
+  #   offset: 4
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,5,152,1,-1,"4 Way Valve Data Qty"}
+  # - <<: *altherma_base
+  #   name: 4 Way Valve Data Qty
+  #   register: 0x00
+  #   offset: 5
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,6,152,1,-1,"Crank Case Heater Qty"}
+  # - <<: *altherma_base
+  #   name: Crank Case Heater Qty
+  #   register: 0x00
+  #   offset: 6
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,7,152,1,-1,"Solenoid valve Qty"}
+  # - <<: *altherma_base
+  #   name: Solenoid valve Qty
+  #   register: 0x00
+  #   offset: 7
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,8,152,1,-1,"Max. connectable indoor units"}
+  # - <<: *altherma_base
+  #   name: Max. connectable indoor units
+  #   register: 0x00
+  #   offset: 8
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,9,152,1,-1,"Connected Indoor Unit Qty"}
+  # - <<: *altherma_base
+  #   name: Connected Indoor Unit Qty
+  #   register: 0x00
+  #   offset: 9
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,10,152,1,-1,"O/U MPU ID (xx)"}
+  # - <<: *altherma_base
+  #   name: O/U MPU ID (xx)
+  #   register: 0x00
+  #   offset: 10
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,11,152,1,-1,"O/U MPU ID (yy)"}
+  # - <<: *altherma_base
+  #   name: O/U MPU ID (yy)
+  #   register: 0x00
+  #   offset: 11
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x00,12,105,1,-1,"O/U capacity (kW)"}
+  # - <<: *altherma_base
+  #   name: O/U capacity (kW)
+  #   register: 0x00
+  #   offset: 12
+  #   convid: 105
+  #   datasize: 1
+
+  # {0x10,6,114,2,1,"Target Evap. Temp."}
   - <<: *temp
-    name: Outdoor air temp. (R1T)
+    name: Target Evap. Temp.
+    register: 0x10
+    offset: 6
+    convid: 114
+    datasize: 2
+    entity_category: diagnostic
+
+  # {0x10,8,114,2,1,"Target Cond. Temp."}
+  - <<: *temp
+    name: Target Cond. Temp.
+    register: 0x10
+    offset: 8
+    convid: 114
+    datasize: 2
+    entity_category: diagnostic
+
+  # {0x10,10,310,1,-1,"Discharge Temp. Protection Retry Qty"}
+  # - <<: *altherma_base
+  #   name: Discharge Temp. Protection Retry Qty
+  #   register: 0x10
+  #   offset: 10
+  #   convid: 310
+  #   datasize: 1
+
+  # {0x10,10,311,1,-1,"Comp. INV Current Protection Retry Qty"}
+  # - <<: *altherma_base
+  #   name: Comp. INV Current Protection Retry Qty
+  #   register: 0x10
+  #   offset: 10
+  #   convid: 311
+  #   datasize: 1
+
+  # {0x10,11,310,1,-1,"HP Protection Retry Qty"}
+  - <<: *altherma_base
+    name: HP Protection Retry Qty
+    register: 0x10
+    offset: 11
+    convid: 310
+    datasize: 1
+
+  # {0x10,11,311,1,-1,"LP Protection Retry Qty"}
+  - <<: *altherma_base
+    name: LP Protection Retry Qty
+    register: 0x10
+    offset: 11
+    convid: 311
+    datasize: 1
+
+  # {0x10,12,310,1,-1,"Fin Temp. Protection Retry Qty"}
+  # - <<: *altherma_base
+  #   name: Fin Temp. Protection Retry Qty
+  #   register: 0x10
+  #   offset: 12
+  #   convid: 310
+  #   datasize: 1
+
+  # {0x10,12,311,1,-1,"Not in use"}
+  # - <<: *altherma_base
+  #   name: Not in use
+  #   register: 0x10
+  #   offset: 12
+  #   convid: 311
+  #   datasize: 1
+
+  # {0x11,0,215,1,-1,"O/U EEPROM (1st digit)"}     -- text sensor, see text_sensor section
+  # {0x11,1,215,1,-1,"O/U EEPROM (3rd 4th digit)"}  -- text sensor, see text_sensor section
+  # {0x11,2,215,1,-1,"O/U EEPROM (5th 6th digit)"}  -- text sensor, see text_sensor section
+  # {0x11,3,215,1,-1,"O/U EEPROM (7th 8th digit)"}  -- text sensor, see text_sensor section
+  # {0x11,4,215,1,-1,"O/U EEPROM (10th digit)"}     -- text sensor, see text_sensor section
+  # {0x11,5,214,1,-1,"O/U EEPROM (11th digit)"}     -- text sensor, see text_sensor section
+
+  # --- Outdoor Unit Temps (0x20) ---
+
+  # {0x20,0,105,2,1,"R1T-Outdoor air temp."}
+  - <<: *temp
+    name: R1T-Outdoor air temp.
     register: 0x20
     offset: 0
     convid: 105
     datasize: 2
 
+  # {0x20,2,105,2,1,"O/U Heat Exch. Temp.(R4T)"}
   - <<: *temp
-    name: O⁄U Heat Exch. Temp. (R4T)
+    name: O/U Heat Exch. Temp. (R4T)
     register: 0x20
     offset: 2
     convid: 105
     datasize: 2
     entity_category: diagnostic
 
+  # {0x20,4,105,2,1,"Discharge pipe temp.(R2T)"}
   - <<: *temp
     name: Discharge pipe temp. (R2T)
     register: 0x20
@@ -62,6 +244,7 @@ sensor:
     datasize: 2
     entity_category: diagnostic
 
+  # {0x20,6,105,2,1,"Suction pipe temp.(R3T)"}
   - <<: *temp
     name: Suction pipe temp. (R3T)
     register: 0x20
@@ -70,6 +253,7 @@ sensor:
     datasize: 2
     entity_category: diagnostic
 
+  # {0x20,8,105,2,1,"Heat exchanger mid-temp.(R5T)"}
   - <<: *temp
     name: Heat exchanger mid-temp. (R5T)
     register: 0x20
@@ -78,6 +262,7 @@ sensor:
     datasize: 2
     entity_category: diagnostic
 
+  # {0x20,10,105,2,1,"Liquid pipe temp.(R6T)"}
   - <<: *temp
     name: Liquid pipe temp. (R6T)
     register: 0x20
@@ -86,7 +271,7 @@ sensor:
     datasize: 2
     entity_category: diagnostic
 
-  # --- Pressures ---
+  # {0x20,12,105,2,2,"High Pressure"}
   - <<: *pressure_bar
     name: High Pressure
     register: 0x20
@@ -94,6 +279,16 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x20,12,405,2,1,"High Pressure(T)"}
+  - <<: *temp
+    name: High Pressure (T)
+    register: 0x20
+    offset: 12
+    convid: 405
+    datasize: 2
+    entity_category: diagnostic
+
+  # {0x20,14,105,2,2,"Low Pressure"}
   - <<: *pressure_bar
     name: Low Pressure
     register: 0x20
@@ -101,22 +296,34 @@ sensor:
     convid: 105
     datasize: 2
 
-  # --- Currents ---
+  # {0x20,14,405,2,-1,"Low Pressure(T)"}
+  - <<: *temp
+    name: Low Pressure (T)
+    register: 0x20
+    offset: 14
+    convid: 405
+    datasize: 2
+    entity_category: diagnostic
+
+  # --- Outdoor Unit Currents / Temps (0x21) ---
+
+  # {0x21,0,105,2,-1,"INV primary current (A)"}
   - <<: *current
-    name: INV primary current
+    name: INV primary current (A)
     register: 0x21
     offset: 0
     convid: 105
     datasize: 2
 
+  # {0x21,2,105,2,-1,"INV secondary current (A)"}
   - <<: *current
-    name: INV secondary current
+    name: INV secondary current (A)
     register: 0x21
     offset: 2
     convid: 105
     datasize: 2
 
-  # --- Additional temps ---
+  # {0x21,4,105,2,1,"INV fin temp."}
   - <<: *temp
     name: INV fin temp.
     register: 0x21
@@ -124,6 +331,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x21,6,105,2,1,"Brine inlet temp."}
   - <<: *temp
     name: Brine inlet temp.
     register: 0x21
@@ -131,6 +339,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x21,8,105,2,1,"Brine outlet temp."}
   - <<: *temp
     name: Brine outlet temp.
     register: 0x21
@@ -138,6 +347,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x21,10,105,2,1,"Compressor outlet temperature"}
   - <<: *temp
     name: Compressor outlet temperature
     register: 0x21
@@ -145,6 +355,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x21,12,105,2,1,"Refrig. temp. evap.Out"}
   - <<: *temp
     name: Refrig. temp. evap. Out
     register: 0x21
@@ -152,7 +363,41 @@ sensor:
     convid: 105
     datasize: 2
 
-  # --- Frequency ⁄ Fan ---
+  # {0x21,15,105,1,-1,"Not in use"}
+  # - <<: *altherma_base
+  #   name: Not in use (0x21 offset 15)
+  #   register: 0x21
+  #   offset: 15
+  #   convid: 105
+  #   datasize: 1
+
+  # {0x21,16,105,1,-1,"Not in use"}
+  # - <<: *altherma_base
+  #   name: Not in use (0x21 offset 16)
+  #   register: 0x21
+  #   offset: 16
+  #   convid: 105
+  #   datasize: 1
+
+  # {0x21,17,105,1,-1,"Not in use"}
+  # - <<: *altherma_base
+  #   name: Not in use (0x21 offset 17)
+  #   register: 0x21
+  #   offset: 17
+  #   convid: 105
+  #   datasize: 1
+
+  # {0x21,18,105,1,-1,"Not in use"}
+  # - <<: *altherma_base
+  #   name: Not in use (0x21 offset 18)
+  #   register: 0x21
+  #   offset: 18
+  #   convid: 105
+  #   datasize: 1
+
+  # --- O/U Actuators (0x30) ---
+
+  # {0x30,0,152,1,-1,"INV frequency (rps)"}
   - <<: *rps
     name: INV frequency (rps)
     register: 0x30
@@ -160,6 +405,7 @@ sensor:
     convid: 152
     datasize: 1
 
+  # {0x30,1,211,1,-1,"Fan 1 (step)"}
   - <<: *altherma_base
     name: Fan 1 (step)
     register: 0x30
@@ -167,6 +413,7 @@ sensor:
     convid: 211
     datasize: 1
 
+  # {0x30,2,211,1,-1,"Fan 2 (step)"}
   - <<: *altherma_base
     name: Fan 2 (step)
     register: 0x30
@@ -174,7 +421,23 @@ sensor:
     convid: 211
     datasize: 1
 
-  # --- Water side ---
+  # {0x30,3,151,2,-1,"Expansion valve 1 (pls)"}
+  - <<: *altherma_base
+    name: Expansion valve 1 (pls)
+    register: 0x30
+    offset: 3
+    convid: 151
+    datasize: 2
+
+  # {0x30,5,151,2,-1,"Expansion valve 2 (pls)"}
+  - <<: *altherma_base
+    name: Expansion valve 2 (pls)
+    register: 0x30
+    offset: 5
+    convid: 151
+    datasize: 2
+
+  # {0x30,10,112,1,1,"Inlet water temp. (DMW)"}
   - <<: *temp
     name: Inlet water temp. (DMW)
     register: 0x30
@@ -182,6 +445,7 @@ sensor:
     convid: 112
     datasize: 1
 
+  # {0x30,11,112,1,1,"Outlet water heat exchanger temp (hydro split model) DLWB2"}
   - <<: *temp
     name: Outlet water heat exchanger temp (DLWB2)
     register: 0x30
@@ -189,7 +453,74 @@ sensor:
     convid: 112
     datasize: 1
 
-  # --- Indoor water temps ---
+  # --- Raw water HEX temps (0xA1) ---
+
+  # {0xA1,0,119,2,1,"(Raw data)Water heat exchanger inlet temp."}
+  - <<: *temp
+    name: "(Raw data) Water heat exchanger inlet temp."
+    register: 0xA1
+    offset: 0
+    convid: 119
+    datasize: 2
+    entity_category: diagnostic
+
+  # {0xA1,2,119,2,1,"(Raw data)Water heat exchanger outlet temp."}
+  - <<: *temp
+    name: "(Raw data) Water heat exchanger outlet temp."
+    register: 0xA1
+    offset: 2
+    convid: 119
+    datasize: 2
+    entity_category: diagnostic
+
+  # --- Indoor Unit (0x60) ---
+
+  # {0x60,0,304,1,-1,"Data Enable/Disable"}   -- binary sensor, see binary_sensor section
+  # {0x60,1,152,1,-1,"Indoor Unit Address"}
+  # - <<: *altherma_base
+  #   name: Indoor Unit Address (0x60)
+  #   register: 0x60
+  #   offset: 1
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x60,6,219,1,-1,"I/U capacity code"}      -- text sensor, see text_sensor section
+
+  # {0x60,7,105,2,1,"DHW setpoint"}
+  - <<: *temp
+    name: DHW setpoint
+    register: 0x60
+    offset: 7
+    convid: 105
+    datasize: 2
+
+  # {0x60,9,105,2,1,"LW setpoint (main)"}
+  - <<: *temp
+    name: LW setpoint (main)
+    register: 0x60
+    offset: 9
+    convid: 105
+    datasize: 2
+
+  # {0x60,13,152,1,-1,"Indoor Option Code"}
+  - <<: *altherma_base
+    name: Indoor Option Code
+    register: 0x60
+    offset: 13
+    convid: 152
+    datasize: 1
+
+  # --- Indoor Unit Data (0x61) ---
+
+  # {0x61,1,152,1,-1,"Indoor Unit Address"}
+  - <<: *altherma_base
+    name: Indoor Unit Address
+    register: 0x61
+    offset: 1
+    convid: 152
+    datasize: 1
+
+  # {0x61,2,105,2,1,"Leaving water temp. before BUH (R1T)"}
   - <<: *temp
     name: Leaving water temp. before BUH (R1T)
     register: 0x61
@@ -197,6 +528,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x61,4,105,2,1,"Leaving water temp. after BUH (R2T)"}
   - <<: *temp
     name: Leaving water temp. after BUH (R2T)
     register: 0x61
@@ -204,6 +536,15 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x61,6,105,2,1,"Refrig. Temp. liquid side (R3T)"}
+  - <<: *temp
+    name: Refrig. Temp. liquid side (R3T)
+    register: 0x61
+    offset: 6
+    convid: 105
+    datasize: 2
+
+  # {0x61,8,105,2,1,"Inlet water temp.(R4T)"}
   - <<: *temp
     name: Inlet water temp. (R4T)
     register: 0x61
@@ -211,6 +552,7 @@ sensor:
     convid: 105
     datasize: 2
 
+  # {0x61,10,105,2,1,"DHW tank temp. (R5T)"}
   - <<: *temp
     name: DHW tank temp. (R5T)
     register: 0x61
@@ -218,17 +560,61 @@ sensor:
     convid: 105
     datasize: 2
 
-  # --- Flow ⁄ Pressure ---
+  # {0x61,12,105,2,1,"Indoor ambient temp. (R1T)"}
+  - <<: *temp
+    name: Indoor ambient temp. (R1T)
+    register: 0x61
+    offset: 12
+    convid: 105
+    datasize: 2
+
+  # {0x61,14,105,2,1,"Ext. indoor ambient sensor (R6T)"}
+  - <<: *temp
+    name: Ext. indoor ambient sensor (R6T)
+    register: 0x61
+    offset: 14
+    convid: 105
+    datasize: 2
+
+  # --- Indoor Unit Mode (0x62) ---
+
+  # {0x62,0,307,1,-1,"Data Enable/Disable"}   -- binary sensor, see binary_sensor section
+  # {0x62,1,152,1,-1,"Indoor Unit Address"}
+  # - <<: *altherma_base
+  #   name: Indoor Unit Address (0x62)
+  #   register: 0x62
+  #   offset: 1
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x62,3,105,2,1,"LW setpoint (add)"}
+  - <<: *temp
+    name: LW setpoint (add)
+    register: 0x62
+    offset: 3
+    convid: 105
+    datasize: 2
+
+  # {0x62,5,105,2,1,"RT setpoint"}
+  - <<: *temp
+    name: RT setpoint
+    register: 0x62
+    offset: 5
+    convid: 105
+    datasize: 2
+
+  # {0x62,9,105,2,-1,"Flow sensor (l/min)"}
   - <<: *altherma_base
-    name: Flow sensor (l⁄min)
+    name: Flow sensor (l/min)
     register: 0x62
     offset: 9
     convid: 105
     datasize: 2
-    unit_of_measurement: l⁄min
+    unit_of_measurement: l/min
     state_class: measurement
     accuracy_decimals: 1
 
+  # {0x62,11,105,1,2,"Water pressure"}
   - <<: *pressure_bar
     name: Water pressure
     register: 0x62
@@ -236,24 +622,153 @@ sensor:
     convid: 105
     datasize: 1
 
+  # {0x62,12,152,1,-1,"Water pump signal (0:max-100:stop)"}
   - <<: *altherma_base
-    name: Water pump signal (0:max-100:stop)
+    name: "Water pump signal (0:max-100:stop)"
     register: 0x62
     offset: 12
     convid: 152
     datasize: 1
     accuracy_decimals: 0
 
-
-binary_sensor:
-  - <<: *binary
-    name: Thermostat ON⁄OFF
-    device_class: running
-    register: 0x60
-    offset: 2
-    convid: 303
+  # {0x62,13,152,1,-1,"[Future] 3 way Valve Mixing 1"}
+  - <<: *altherma_base
+    name: "[Future] 3 way Valve Mixing 1"
+    register: 0x62
+    offset: 13
+    convid: 152
     datasize: 1
 
+  # {0x62,14,152,1,-1,"[Future] 3 way Valve Mixing 2"}
+  - <<: *altherma_base
+    name: "[Future] 3 way Valve Mixing 2"
+    register: 0x62
+    offset: 14
+    convid: 152
+    datasize: 1
+
+  # {0x62,15,152,2,2,"Refrigerant pressure sensor"}
+  - <<: *altherma_base
+    name: Refrigerant pressure sensor
+    register: 0x62
+    offset: 15
+    convid: 152
+    datasize: 2
+
+  # --- Indoor Unit EEPROM (0x63) ---
+
+  # {0x63,0,307,1,-1,"Data Enable/Disable"}   -- binary sensor, see binary_sensor section
+  # {0x63,1,152,1,-1,"Indoor Unit Address"}
+  # - <<: *altherma_base
+  #   name: Indoor Unit Address (0x63)
+  #   register: 0x63
+  #   offset: 1
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x63,2,215,1,-1,"I/U EEPROM (3rd digit)"}    -- text sensor, see text_sensor section
+  # {0x63,3,215,1,-1,"I/U EEPROM (4th 5th digit)"} -- text sensor, see text_sensor section
+  # {0x63,4,215,1,-1,"I/U EEPROM (6th 7th digit)"} -- text sensor, see text_sensor section
+  # {0x63,5,215,1,-1,"I/U EEPROM (8th 9th digit)"} -- text sensor, see text_sensor section
+  # {0x63,6,215,1,-1,"I/U EEPROM (11th digit)"}    -- text sensor, see text_sensor section
+  # {0x63,7,214,1,-1,"I/U EEPROM (12th digit)(rev.)"} -- text sensor, see text_sensor section
+
+  # --- Hybrid (0x64) ---
+
+  # {0x64,0,307,1,-1,"Data Enable/Disable"}   -- binary sensor, see binary_sensor section
+  # {0x64,1,152,1,-1,"Indoor Unit Address"}
+  # - <<: *altherma_base
+  #   name: Indoor Unit Address (0x64)
+  #   register: 0x64
+  #   offset: 1
+  #   convid: 152
+  #   datasize: 1
+
+  # {0x64,3,105,2,-1,"BE_COP"}
+  - <<: *altherma_base
+    name: BE_COP
+    register: 0x64
+    offset: 3
+    convid: 105
+    datasize: 2
+
+  # {0x64,5,105,2,1,"Hybrid Heating Target Temp."}
+  - <<: *temp
+    name: Hybrid Heating Target Temp.
+    register: 0x64
+    offset: 5
+    convid: 105
+    datasize: 2
+
+  # {0x64,7,105,2,1,"Boiler Heating Target Temp."}
+  - <<: *temp
+    name: Boiler Heating Target Temp.
+    register: 0x64
+    offset: 7
+    convid: 105
+    datasize: 2
+
+  # {0x64,10,118,2,1,"Mixed water temp."}
+  - <<: *temp
+    name: Mixed water temp.
+    register: 0x64
+    offset: 10
+    convid: 118
+    datasize: 2
+
+  # {0x64,12,105,2,1,"2nd Domestic hot water temperature"}
+  - <<: *temp
+    name: 2nd Domestic hot water temperature
+    register: 0x64
+    offset: 12
+    convid: 105
+    datasize: 2
+
+  # {0x64,14,152,1,1,"Target delta T heating"}
+  - <<: *altherma_base
+    name: Target delta T heating
+    register: 0x64
+    offset: 14
+    convid: 152
+    datasize: 1
+
+  # {0x64,15,152,1,1,"Target delta T cooling"}
+  - <<: *altherma_base
+    name: Target delta T cooling
+    register: 0x64
+    offset: 15
+    convid: 152
+    datasize: 1
+
+
+binary_sensor:
+  # --- O/U Operation Flags (0x10) ---
+
+  # {0x10,1,307,1,-1,"Thermostat ON/OFF"}
+  - <<: *binary
+    name: Thermostat ON/OFF (O/U)
+    register: 0x10
+    offset: 1
+    convid: 307
+    datasize: 1
+
+  # {0x10,1,306,1,-1,"Restart standby"}
+  - <<: *binary
+    name: Restart standby
+    register: 0x10
+    offset: 1
+    convid: 306
+    datasize: 1
+
+  # {0x10,1,305,1,-1,"Startup Control"}
+  - <<: *binary
+    name: Startup Control
+    register: 0x10
+    offset: 1
+    convid: 305
+    datasize: 1
+
+  # {0x10,1,304,1,-1,"Defrost Operation"}
   - <<: *binary
     name: Defrost Operation
     register: 0x10
@@ -261,6 +776,224 @@ binary_sensor:
     convid: 304
     datasize: 1
 
+  # {0x10,1,303,1,-1,"Oil Return Operation"}
+  # - <<: *binary
+  #   name: Oil Return Operation
+  #   register: 0x10
+  #   offset: 1
+  #   convid: 303
+  #   datasize: 1
+
+  # {0x10,1,302,1,-1,"Pressure equalizing operation"}
+  # - <<: *binary
+  #   name: Pressure equalizing operation
+  #   register: 0x10
+  #   offset: 1
+  #   convid: 302
+  #   datasize: 1
+
+  # {0x10,1,301,1,-1,"Demand Signal"}
+  - <<: *binary
+    name: Demand Signal
+    register: 0x10
+    offset: 1
+    convid: 301
+    datasize: 1
+
+  # {0x10,1,300,1,-1,"Low noise control"}
+  - <<: *binary
+    name: Low noise control
+    register: 0x10
+    offset: 1
+    convid: 300
+    datasize: 1
+
+  # {0x10,10,307,1,-1,"Discharge Temp. Drop"}
+  - <<: *binary
+    name: Discharge Temp. Drop
+    register: 0x10
+    offset: 10
+    convid: 307
+    datasize: 1
+
+  # {0x10,10,303,1,-1,"Comp. INV Current Drop"}
+  - <<: *binary
+    name: Comp. INV Current Drop
+    register: 0x10
+    offset: 10
+    convid: 303
+    datasize: 1
+
+  # {0x10,11,307,1,-1,"HP Drop Control"}
+  - <<: *binary
+    name: HP Drop Control
+    register: 0x10
+    offset: 11
+    convid: 307
+    datasize: 1
+
+  # {0x10,11,303,1,-1,"LP Drop Control"}
+  - <<: *binary
+    name: LP Drop Control
+    register: 0x10
+    offset: 11
+    convid: 303
+    datasize: 1
+
+  # {0x10,12,307,1,-1,"Fin Temp. Drop Control"}
+  - <<: *binary
+    name: Fin Temp. Drop Control
+    register: 0x10
+    offset: 12
+    convid: 307
+    datasize: 1
+
+  # {0x10,12,303,1,-1,"Other Drop Control"}
+  - <<: *binary
+    name: Other Drop Control
+    register: 0x10
+    offset: 12
+    convid: 303
+    datasize: 1
+
+  # --- O/U Actuators (0x30) ---
+
+  # {0x30,7,307,1,-1,"4 Way Valve 1"}
+  - <<: *binary
+    name: 4 Way Valve 1
+    register: 0x30
+    offset: 7
+    convid: 307
+    datasize: 1
+
+  # {0x30,7,306,1,-1,"4 Way Valve 2"}
+  - <<: *binary
+    name: 4 Way Valve 2
+    register: 0x30
+    offset: 7
+    convid: 306
+    datasize: 1
+
+  # {0x30,7,305,1,-1,"4 Way Valve 3"}
+  - <<: *binary
+    name: 4 Way Valve 3
+    register: 0x30
+    offset: 7
+    convid: 305
+    datasize: 1
+
+  # {0x30,7,304,1,-1,"4 Way Valve 4"}
+  - <<: *binary
+    name: 4 Way Valve 4
+    register: 0x30
+    offset: 7
+    convid: 304
+    datasize: 1
+
+  # {0x30,7,303,1,-1,"4 Way Valve 5"}
+  - <<: *binary
+    name: 4 Way Valve 5
+    register: 0x30
+    offset: 7
+    convid: 303
+    datasize: 1
+
+  # {0x30,7,302,1,-1,"4 Way Valve 6"}
+  - <<: *binary
+    name: 4 Way Valve 6
+    register: 0x30
+    offset: 7
+    convid: 302
+    datasize: 1
+
+  # {0x30,7,301,1,-1,"4 Way Valve 7"}
+  - <<: *binary
+    name: 4 Way Valve 7
+    register: 0x30
+    offset: 7
+    convid: 301
+    datasize: 1
+
+  # {0x30,7,300,1,-1,"4 Way Valve 8"}
+  - <<: *binary
+    name: 4 Way Valve 8
+    register: 0x30
+    offset: 7
+    convid: 300
+    datasize: 1
+
+  # {0x30,8,307,1,-1,"Crank case heater"}
+  - <<: *binary
+    name: Crank case heater
+    register: 0x30
+    offset: 8
+    convid: 307
+    datasize: 1
+
+  # {0x30,9,307,1,1,"Hot gas bypass valve (Y2S)"}
+  - <<: *binary
+    name: Hot gas bypass valve (Y2S)
+    register: 0x30
+    offset: 9
+    convid: 307
+    datasize: 1
+
+  # {0x30,9,306,1,1,"LP bypass valve (Y3S)"}
+  - <<: *binary
+    name: LP bypass valve (Y3S)
+    register: 0x30
+    offset: 9
+    convid: 306
+    datasize: 1
+
+  # --- In-Out separator (0xA0 / 0xA1) ---
+
+  # {0xA0,12,301,1,1,"4 way valve (Y1S)"}
+  - <<: *binary
+    name: 4 way valve (Y1S)
+    register: 0xA0
+    offset: 12
+    convid: 301
+    datasize: 1
+
+  # {0xA1,4,301,1,-1,"Bottom Plate Heater"}
+  - <<: *binary
+    name: Bottom Plate Heater
+    register: 0xA1
+    offset: 4
+    convid: 301
+    datasize: 1
+
+  # {0xA1,4,300,1,-1,"PHE Heater"}
+  - <<: *binary
+    name: PHE Heater (A1)
+    register: 0xA1
+    offset: 4
+    convid: 300
+    datasize: 1
+
+  # --- Indoor Unit (0x60) ---
+
+  # {0x60,0,304,1,-1,"Data Enable/Disable"}
+  # - <<: *binary
+  #   name: Data Enable/Disable (0x60)
+  #   register: 0x60
+  #   offset: 0
+  #   convid: 304
+  #   datasize: 1
+
+  # {0x60,2,315,1,-1,"I/U operation mode"}    -- text sensor, see text_sensor section
+
+  # {0x60,2,303,1,-1,"Thermostat ON/OFF"}
+  - <<: *binary
+    name: Thermostat ON/OFF
+    device_class: running
+    register: 0x60
+    offset: 2
+    convid: 303
+    datasize: 1
+
+  # {0x60,2,302,1,-1,"Freeze Protection"}
   - <<: *binary
     name: Freeze Protection
     device_class: cold
@@ -269,6 +1002,7 @@ binary_sensor:
     convid: 302
     datasize: 1
 
+  # {0x60,2,301,1,-1,"Silent Mode"}
   - <<: *binary
     name: Silent Mode
     device_class: sound
@@ -277,13 +1011,103 @@ binary_sensor:
     convid: 301
     datasize: 1
 
+  # {0x60,2,300,1,-1,"Freeze Protection for water piping"}
   - <<: *binary
-    name: 3way valve (DHW⁄Space)
+    name: Freeze Protection for water piping
+    register: 0x60
+    offset: 2
+    convid: 300
+    datasize: 1
+
+  # {0x60,11,307,1,-1,"Water flow switch"}
+  - <<: *binary
+    name: Water flow switch
+    register: 0x60
+    offset: 11
+    convid: 307
+    datasize: 1
+
+  # {0x60,11,306,1,-1,"Thermal protector (Q1L) BUH"}
+  - <<: *binary
+    name: Thermal protector (Q1L) BUH
+    register: 0x60
+    offset: 11
+    convid: 306
+    datasize: 1
+
+  # {0x60,11,305,1,-1,"Thermal protector BSH"}
+  - <<: *binary
+    name: Thermal protector BSH
+    register: 0x60
+    offset: 11
+    convid: 305
+    datasize: 1
+
+  # {0x60,11,304,1,-1,"Benefit kWh rate power supply"}
+  - <<: *binary
+    name: Benefit kWh rate power supply
+    register: 0x60
+    offset: 11
+    convid: 304
+    datasize: 1
+
+  # {0x60,11,303,1,-1,"Solar input"}
+  - <<: *binary
+    name: Solar input
+    register: 0x60
+    offset: 11
+    convid: 303
+    datasize: 1
+
+  # {0x60,11,302,1,-1,"Not in use"}
+  # - <<: *binary
+  #   name: Not in use (0x60 offset 11 bit 302)
+  #   register: 0x60
+  #   offset: 11
+  #   convid: 302
+  #   datasize: 1
+
+  # {0x60,11,301,1,-1,"Not in use"}
+  # - <<: *binary
+  #   name: Not in use (0x60 offset 11 bit 301)
+  #   register: 0x60
+  #   offset: 11
+  #   convid: 301
+  #   datasize: 1
+
+  # {0x60,11,300,1,-1,"Bivalent Operation"}
+  - <<: *binary
+    name: Bivalent Operation
+    register: 0x60
+    offset: 11
+    convid: 300
+    datasize: 1
+
+  # {0x60,12,307,1,-1,"2way valve(On:Heat_Off:Cool)"}
+  - <<: *binary
+    name: 2way valve (On:Heat_Off:Cool)
+    register: 0x60
+    offset: 12
+    convid: 307
+    datasize: 1
+
+  # {0x60,12,306,1,-1,"3way valve(On:DHW_Off:Space)"}
+  - <<: *binary
+    name: 3way valve (On:DHW_Off:Space)
     register: 0x60
     offset: 12
     convid: 306
     datasize: 1
 
+  # {0x60,12,305,1,-1,"BSH"}
+  - <<: *binary
+    name: BSH
+    register: 0x60
+    offset: 12
+    convid: 305
+    datasize: 1
+
+  # {0x60,12,304,1,-1,"BUH Step1"}
   - <<: *binary
     name: BUH Step1
     register: 0x60
@@ -291,6 +1115,7 @@ binary_sensor:
     convid: 304
     datasize: 1
 
+  # {0x60,12,303,1,-1,"BUH Step2"}
   - <<: *binary
     name: BUH Step2
     register: 0x60
@@ -298,6 +1123,203 @@ binary_sensor:
     convid: 303
     datasize: 1
 
+  # {0x60,12,302,1,-1,"Floor loop shut off valve"}
+  - <<: *binary
+    name: Floor loop shut off valve
+    register: 0x60
+    offset: 12
+    convid: 302
+    datasize: 1
+
+  # {0x60,12,301,1,-1,"Water pump operation"}
+  - <<: *binary
+    name: Water pump operation
+    register: 0x60
+    offset: 12
+    convid: 301
+    datasize: 1
+
+  # {0x60,12,300,1,-1,"Solar pump operation"}
+  - <<: *binary
+    name: Solar pump operation
+    register: 0x60
+    offset: 12
+    convid: 300
+    datasize: 1
+
+  # --- Indoor Unit Data Enable (0x61) ---
+
+  # {0x61,0,307,1,-1,"Data Enable/Disable"}
+  - <<: *binary
+    name: Data Enable/Disable
+    register: 0x61
+    offset: 0
+    convid: 307
+    datasize: 1
+
+  # --- Indoor Unit Mode (0x62) ---
+
+  # {0x62,0,307,1,-1,"Data Enable/Disable"}
+  # - <<: *binary
+  #   name: Data Enable/Disable (0x62)
+  #   register: 0x62
+  #   offset: 0
+  #   convid: 307
+  #   datasize: 1
+
+  # {0x62,2,307,1,-1,"Reheat ON/OFF"}
+  - <<: *binary
+    name: Reheat ON/OFF
+    register: 0x62
+    offset: 2
+    convid: 307
+    datasize: 1
+
+  # {0x62,2,306,1,-1,"Storage ECO ON/OFF"}
+  - <<: *binary
+    name: Storage ECO ON/OFF
+    register: 0x62
+    offset: 2
+    convid: 306
+    datasize: 1
+
+  # {0x62,2,305,1,-1,"Storage comfort ON/OFF"}
+  - <<: *binary
+    name: Storage comfort ON/OFF
+    register: 0x62
+    offset: 2
+    convid: 305
+    datasize: 1
+
+  # {0x62,2,304,1,-1,"Powerful DHW Operation. ON/OFF"}
+  - <<: *binary
+    name: Powerful DHW Operation ON/OFF
+    register: 0x62
+    offset: 2
+    convid: 304
+    datasize: 1
+
+  # {0x62,2,303,1,-1,"Space heating Operation ON/OFF"}
+  - <<: *binary
+    name: Space heating Operation ON/OFF
+    register: 0x62
+    offset: 2
+    convid: 303
+    datasize: 1
+
+  # {0x62,2,302,1,-1,"System OFF (ON:System off)"}
+  - <<: *binary
+    name: System OFF
+    register: 0x62
+    offset: 2
+    convid: 302
+    datasize: 1
+
+  # {0x62,2,301,1,-1,"Not in use"}
+  # - <<: *binary
+  #   name: Not in use (0x62 offset 2 bit 301)
+  #   register: 0x62
+  #   offset: 2
+  #   convid: 301
+  #   datasize: 1
+
+  # {0x62,2,300,1,-1,"Emergency (indoor) active/not active"}
+  - <<: *binary
+    name: Emergency (indoor) active
+    register: 0x62
+    offset: 2
+    convid: 300
+    datasize: 1
+
+  # {0x62,7,307,1,-1,"Add. Ext. RT Input Cool."}
+  - <<: *binary
+    name: Add. Ext. RT Input Cool.
+    register: 0x62
+    offset: 7
+    convid: 307
+    datasize: 1
+
+  # {0x62,7,306,1,-1,"Add. Ext. RT Input Heat."}
+  - <<: *binary
+    name: Add. Ext. RT Input Heat.
+    register: 0x62
+    offset: 7
+    convid: 306
+    datasize: 1
+
+  # {0x62,7,305,1,-1,"Main RT Cooling"}
+  - <<: *binary
+    name: Main RT Cooling
+    register: 0x62
+    offset: 7
+    convid: 305
+    datasize: 1
+
+  # {0x62,7,304,1,-1,"Main RT Heating"}
+  - <<: *binary
+    name: Main RT Heating
+    register: 0x62
+    offset: 7
+    convid: 304
+    datasize: 1
+
+  # {0x62,7,303,1,-1,"Pwr consumption limit 4"}
+  - <<: *binary
+    name: Pwr consumption limit 4
+    register: 0x62
+    offset: 7
+    convid: 303
+    datasize: 1
+
+  # {0x62,7,302,1,-1,"Pwr consumption limit 3"}
+  - <<: *binary
+    name: Pwr consumption limit 3
+    register: 0x62
+    offset: 7
+    convid: 302
+    datasize: 1
+
+  # {0x62,7,301,1,-1,"Pwr consumption limit 2"}
+  - <<: *binary
+    name: Pwr consumption limit 2
+    register: 0x62
+    offset: 7
+    convid: 301
+    datasize: 1
+
+  # {0x62,7,300,1,-1,"Pwr consumption limit 1"}
+  - <<: *binary
+    name: Pwr consumption limit 1
+    register: 0x62
+    offset: 7
+    convid: 300
+    datasize: 1
+
+  # {0x62,8,307,1,-1,"None"}
+  # - <<: *binary
+  #   name: None (0x62 offset 8 bit 307)
+  #   register: 0x62
+  #   offset: 8
+  #   convid: 307
+  #   datasize: 1
+
+  # {0x62,8,306,1,-1,"Not in use"}
+  # - <<: *binary
+  #   name: Not in use (0x62 offset 8 bit 306)
+  #   register: 0x62
+  #   offset: 8
+  #   convid: 306
+  #   datasize: 1
+
+  # {0x62,8,305,1,-1,"Not in use"}
+  # - <<: *binary
+  #   name: Not in use (0x62 offset 8 bit 305)
+  #   register: 0x62
+  #   offset: 8
+  #   convid: 305
+  #   datasize: 1
+
+  # {0x62,8,304,1,-1,"PHE Heater"}
   - <<: *binary
     name: PHE Heater
     register: 0x62
@@ -305,16 +1327,197 @@ binary_sensor:
     convid: 304
     datasize: 1
 
+  # {0x62,8,303,1,-1,"Tank preheat ON/OFF"}
+  - <<: *binary
+    name: Tank preheat ON/OFF
+    register: 0x62
+    offset: 8
+    convid: 303
+    datasize: 1
+
+  # {0x62,8,302,1,-1,"Circulation pump operation"}
+  - <<: *binary
+    name: Circulation pump operation
+    register: 0x62
+    offset: 8
+    convid: 302
+    datasize: 1
+
+  # {0x62,8,301,1,-1,"Alarm output"}
+  - <<: *binary
+    name: Alarm output
+    register: 0x62
+    offset: 8
+    convid: 301
+    datasize: 1
+
+  # {0x62,8,300,1,-1,"Space H Operation output"}
+  - <<: *binary
+    name: Space H Operation output
+    register: 0x62
+    offset: 8
+    convid: 300
+    datasize: 1
+
+  # --- Indoor Unit EEPROM (0x63) ---
+
+  # {0x63,0,307,1,-1,"Data Enable/Disable"}
+  # - <<: *binary
+  #   name: Data Enable/Disable (0x63)
+  #   register: 0x63
+  #   offset: 0
+  #   convid: 307
+  #   datasize: 1
+
+  # {0x63,16,307,1,-1,"HP Forced FG"}
+  - <<: *binary
+    name: HP Forced FG
+    register: 0x63
+    offset: 16
+    convid: 307
+    datasize: 1
+
+  # --- Hybrid (0x64) ---
+
+  # {0x64,0,307,1,-1,"Data Enable/Disable"}
+  # - <<: *binary
+  #   name: Data Enable/Disable (0x64)
+  #   register: 0x64
+  #   offset: 0
+  #   convid: 307
+  #   datasize: 1
+
+  # {0x64,2,303,1,-1,"Boiler Operation Demand"}
+  - <<: *binary
+    name: Boiler Operation Demand
+    register: 0x64
+    offset: 2
+    convid: 303
+    datasize: 1
+
+  # {0x64,2,302,1,-1,"Boiler DHW Demand"}
+  - <<: *binary
+    name: Boiler DHW Demand
+    register: 0x64
+    offset: 2
+    convid: 302
+    datasize: 1
+
+  # {0x64,2,301,1,-1,"Bypass Valve Output"}
+  - <<: *binary
+    name: Bypass Valve Output
+    register: 0x64
+    offset: 2
+    convid: 301
+    datasize: 1
+
+  # {0x64,9,302,1,-1,"Add pump"}
+  - <<: *binary
+    name: Add pump
+    register: 0x64
+    offset: 9
+    convid: 302
+    datasize: 1
+
+  # {0x64,9,301,1,-1,"Main pump"}
+  - <<: *binary
+    name: Main pump
+    register: 0x64
+    offset: 9
+    convid: 301
+    datasize: 1
+
 
 text_sensor:
+  # --- O/U Operation (0x10) ---
+
+  # {0x10,0,217,1,-1,"Operation Mode"}
   - <<: *text
-    name: I⁄U operation mode
+    name: Operation Mode
+    icon: mdi:state-machine
+    register: 0x10
+    offset: 0
+    convid: 217
+    datasize: 1
+
+  # {0x10,4,203,1,-1,"Error type"}
+  - <<: *text
+    name: Error type (O/U)
+    register: 0x10
+    offset: 4
+    convid: 203
+    datasize: 1
+
+  # {0x10,5,204,1,-1,"Error Code"}
+  - <<: *text
+    name: Error Code (O/U)
+    register: 0x10
+    offset: 5
+    convid: 204
+    datasize: 1
+
+  # --- O/U EEPROM (0x11) ---
+
+  # {0x11,0,215,1,-1,"O/U EEPROM (1st digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (1st digit)
+  #   register: 0x11
+  #   offset: 0
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x11,1,215,1,-1,"O/U EEPROM (3rd 4th digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (3rd 4th digit)
+  #   register: 0x11
+  #   offset: 1
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x11,2,215,1,-1,"O/U EEPROM (5th 6th digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (5th 6th digit)
+  #   register: 0x11
+  #   offset: 2
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x11,3,215,1,-1,"O/U EEPROM (7th 8th digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (7th 8th digit)
+  #   register: 0x11
+  #   offset: 3
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x11,4,215,1,-1,"O/U EEPROM (10th digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (10th digit)
+  #   register: 0x11
+  #   offset: 4
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x11,5,214,1,-1,"O/U EEPROM (11th digit)"}
+  # - <<: *text
+  #   name: O/U EEPROM (11th digit)
+  #   register: 0x11
+  #   offset: 5
+  #   convid: 214
+  #   datasize: 1
+
+  # --- Indoor Unit (0x60) ---
+
+  # {0x60,2,315,1,-1,"I/U operation mode"}
+  - <<: *text
+    name: I/U operation mode
     icon: mdi:state-machine
     register: 0x60
     offset: 2
     convid: 315
     datasize: 1
 
+  # {0x60,3,204,1,-1,"Error Code"}
   - <<: *text
     name: Error Code
     register: 0x60
@@ -322,6 +1525,7 @@ text_sensor:
     convid: 204
     datasize: 1
 
+  # {0x60,4,152,1,-1,"Error detailed code"}
   - <<: *text
     name: Error detailed code
     register: 0x60
@@ -329,9 +1533,102 @@ text_sensor:
     convid: 152
     datasize: 1
 
+  # {0x60,5,203,1,-1,"Error type"}
   - <<: *text
     name: Error type
     register: 0x60
     offset: 5
     convid: 203
+    datasize: 1
+
+  # {0x60,6,219,1,-1,"I/U capacity code"}
+  - <<: *text
+    name: I/U capacity code
+    register: 0x60
+    offset: 6
+    convid: 219
+    datasize: 1
+
+  # {0x60,15,215,1,-1,"I/U Software ID (xx)"}
+  - <<: *text
+    name: I/U Software ID (xx)
+    register: 0x60
+    offset: 15
+    convid: 215
+    datasize: 1
+
+  # {0x60,14,215,1,-1,"I/U Software ID (yy)"}
+  - <<: *text
+    name: I/U Software ID (yy)
+    register: 0x60
+    offset: 14
+    convid: 215
+    datasize: 1
+
+  # {0x60,16,152,1,-1,"I/U EEPROM Ver."}
+  - <<: *text
+    name: I/U EEPROM Ver.
+    register: 0x60
+    offset: 16
+    convid: 152
+    datasize: 1
+
+  # --- Indoor Unit EEPROM (0x63) ---
+
+  # {0x63,2,215,1,-1,"I/U EEPROM (3rd digit)"}
+  # - <<: *text
+  #   name: I/U EEPROM (3rd digit)
+  #   register: 0x63
+  #   offset: 2
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x63,3,215,1,-1,"I/U EEPROM (4th 5th digit)"}
+  # - <<: *text
+  #   name: I/U EEPROM (4th 5th digit)
+  #   register: 0x63
+  #   offset: 3
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x63,4,215,1,-1,"I/U EEPROM (6th 7th digit)"}
+  # - <<: *text
+  #   name: I/U EEPROM (6th 7th digit)
+  #   register: 0x63
+  #   offset: 4
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x63,5,215,1,-1,"I/U EEPROM (8th 9th digit)"}
+  # - <<: *text
+  #   name: I/U EEPROM (8th 9th digit)
+  #   register: 0x63
+  #   offset: 5
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x63,6,215,1,-1,"I/U EEPROM (11th digit)"}
+  # - <<: *text
+  #   name: I/U EEPROM (11th digit)
+  #   register: 0x63
+  #   offset: 6
+  #   convid: 215
+  #   datasize: 1
+
+  # {0x63,7,214,1,-1,"I/U EEPROM (12th digit)(rev.)"}
+  # - <<: *text
+  #   name: I/U EEPROM (12th digit)(rev.)
+  #   register: 0x63
+  #   offset: 7
+  #   convid: 214
+  #   datasize: 1
+
+  # --- Hybrid (0x64) ---
+
+  # {0x64,2,316,1,-1,"Hybrid Op. Mode"}
+  - <<: *text
+    name: Hybrid Op. Mode
+    register: 0x64
+    offset: 2
+    convid: 316
     datasize: 1
