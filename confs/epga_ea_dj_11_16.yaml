@@ -309,6 +309,7 @@ sensor:
 
   # {0x21,0,105,2,-1,"INV primary current (A)"}
   - <<: *current
+    id: inv_primary_current
     name: INV primary current (A)
     register: 0x21
     offset: 0
@@ -317,6 +318,7 @@ sensor:
 
   # {0x21,2,105,2,-1,"INV secondary current (A)"}
   - <<: *current
+    id: inv_secondary_current
     name: INV secondary current (A)
     register: 0x21
     offset: 2
@@ -549,6 +551,7 @@ sensor:
 
   # {0x61,8,105,2,1,"Inlet water temp.(R4T)"}
   - <<: *temp
+    id: inlet_water_temp
     name: Inlet water temp. (R4T)
     register: 0x61
     offset: 8
@@ -609,6 +612,7 @@ sensor:
 
   # {0x62,9,105,2,-1,"Flow sensor (l/min)"}
   - <<: *altherma_base
+    id: flow_sensor
     name: Flow sensor (l⁄min)
     register: 0x62
     offset: 9
@@ -688,13 +692,50 @@ sensor:
   #   convid: 152
   #   datasize: 1
 
-  # {0x64,3,105,2,-1,"BE_COP"}
-  - <<: *altherma_base
-    name: BE_COP
-    register: 0x64
-    offset: 3
-    convid: 105
-    datasize: 2
+  # {0x64,3,105,2,-1,"BE_COP"}  -- always reports 0.0, disabled in favour of calculated sensors below
+  # - <<: *altherma_base
+  #   name: BE_COP
+  #   register: 0x64
+  #   offset: 3
+  #   convid: 105
+  #   datasize: 2
+
+  # --- Calculated power / COP sensors ---
+
+  # Thermal output = flow (l/s) * 4.186 (kJ/kg·K) * ΔT (leaving - inlet water temp)
+  - platform: template
+    id: thermal_output_kw
+    name: "Thermal output (kW)"
+    icon: mdi:heat-wave
+    device_class: power
+    state_class: measurement
+    unit_of_measurement: kW
+    accuracy_decimals: 2
+    lambda: |-
+      if (!id(flow_sensor).has_state() ||
+          !id(leaving_water_temp_before_buh).has_state() ||
+          !id(inlet_water_temp).has_state())
+        return NAN;
+      float flow_l_per_s = id(flow_sensor).state / 60.0f;
+      float delta_t = id(leaving_water_temp_before_buh).state - id(inlet_water_temp).state;
+      if (delta_t <= 0.0f)
+        return NAN;
+      return flow_l_per_s * 4.186f * delta_t;
+
+  # COP (electrical) = thermal output / electrical input (230V single-phase * INV primary current)
+  - platform: template
+    name: "COP (electrical)"
+    icon: mdi:heat-pump
+    state_class: measurement
+    unit_of_measurement: ""
+    accuracy_decimals: 2
+    lambda: |-
+      if (!id(thermal_output_kw).has_state() || !id(inv_primary_current).has_state())
+        return NAN;
+      float electrical_kw = 230.0f * id(inv_primary_current).state / 1000.0f;
+      if (electrical_kw <= 0.1f)
+        return NAN;
+      return id(thermal_output_kw).state / electrical_kw;
 
   # {0x64,5,105,2,1,"Hybrid Heating Target Temp."}
   # - <<: *temp
