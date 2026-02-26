@@ -1,10 +1,10 @@
 name: CI
 
 on:
-  push:
-    paths:
-      - '*.yaml'
-      - '.github/workflows/ci.yml'
+  # push:
+  #   paths:
+  #     - '*.yaml'
+  #     - '.github/workflows/ci.yml'
 
   pull_request:
     paths:
