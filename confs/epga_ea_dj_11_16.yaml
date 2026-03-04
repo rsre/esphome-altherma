@@ -657,6 +657,7 @@ sensor:
 
   # {0x62,12,152,1,-1,"Water pump signal (0:max-100:stop)"}
   - <<: *altherma_base
+    id: water_pump_signal_raw
     name: "Water pump signal (0:max-100:stop)"
     icon: mdi:pump
     register: 0x62
@@ -664,6 +665,18 @@ sensor:
     convid: 152
     datasize: 1
     accuracy_decimals: 0
+    internal: true
+
+  - platform: template
+    id: water_pump_signal_inverted
+    name: "Water pump signal"
+    icon: mdi:pump
+    state_class: measurement
+    accuracy_decimals: 0
+    lambda: |-
+      if (!id(water_pump_signal_raw).has_state())
+        return NAN;
+      return 100.0f - id(water_pump_signal_raw).state;
 
   # {0x62,13,152,1,-1,"[Future] 3 way Valve Mixing 1"}
   # - <<: *altherma_base
