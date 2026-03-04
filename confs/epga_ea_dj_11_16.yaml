@@ -1635,6 +1635,17 @@ text_sensor:
     offset: 2
     convid: 315
     datasize: 1
+    on_value:
+    - lambda: |-
+        auto *c = id(altherma_climate);
+        if (x == "Stop" || x == "DHW") {
+          c->mode = climate::CLIMATE_MODE_OFF;
+        } else if (x == "Heating" || x == "Heating + DHW") {
+          c->mode = climate::CLIMATE_MODE_HEAT;
+        } else if (x == "Cooling" || x == "Cooling + DHW") {
+          c->mode = climate::CLIMATE_MODE_COOL;
+        }
+        c->publish_state();
 
   # {0x60,3,204,1,-1,"Error Code"}
   - <<: *text
@@ -1799,3 +1810,17 @@ text_sensor:
 #       min_temperature: 40
 #       max_temperature: 80
 #       target_temperature_step: 1
+
+climate:
+  - platform: template
+    id: altherma_climate
+    name: "Altherma Climate"
+    current_temperature: !lambda return id(leaving_water_temp_before_buh).state;
+    supported_modes:
+      - "OFF"
+      - HEAT
+      - COOL
+    visual:
+      min_temperature: 20
+      max_temperature: 60
+      temperature_step: 0.1
