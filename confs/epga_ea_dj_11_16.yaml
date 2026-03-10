@@ -769,7 +769,7 @@ sensor:
     unit_of_measurement: ""
     accuracy_decimals: 2
     lambda: |-
-      if (!id(thermal_output_kw).has_state() || !id(inv_primary_current).has_state())
+      if (!id(thermal_output_kw).has_state() || !id(voltage).has_state() || !id(inv_primary_current).has_state() )
         return NAN;
       float electrical_kw = id(voltage).state * id(inv_primary_current).state / 1000.0f;
       if (electrical_kw <= 0.1f)
