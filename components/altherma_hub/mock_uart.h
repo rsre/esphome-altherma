@@ -22,10 +22,11 @@ namespace esphome
                 return rx_buffer_.size();
             }
 
-            void flush() override {
+            uart::FlushResult flush() override {
                 while (!rx_buffer_.empty()) {
                     rx_buffer_.pop();
                 }
+                return uart::FlushResult::SUCCESS;
             }
 
             bool read_byte(uint8_t *data) {
