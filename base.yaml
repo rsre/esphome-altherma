@@ -18,6 +18,7 @@ api:
 
 # OTA is required for Over-the-Air updating
 ota:
+  - platform: esphome
 
 wifi:
   # Set up a wifi access point using the device name above
@@ -44,8 +45,6 @@ external_components:
   - source:
       type: local
       path: components
-  - source: github://esphome/esphome@dev
-    components: [template]
 
 altherma_hub:
   id: altherma_hub_1
