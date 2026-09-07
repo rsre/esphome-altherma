@@ -1819,6 +1819,7 @@ climate:
       - COOL
     optimistic: false
     restore_mode: NO_RESTORE
+    supports_action: true
     visual:
       min_temperature: 20
       max_temperature: 60
