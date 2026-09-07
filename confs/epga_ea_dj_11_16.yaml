@@ -1807,3 +1807,20 @@ water_heater:
       min_temperature: 40
       max_temperature: 80
       target_temperature_step: 1
+
+climate:
+  - platform: template
+    id: altherma_climate
+    name: "Altherma Climate"
+    sensor: leaving_water_temp_before_buh
+    supported_modes:
+      - "OFF"
+      - HEAT
+      - COOL
+    optimistic: false
+    restore_mode: NO_RESTORE
+    supports_action: true
+    visual:
+      min_temperature: 20
+      max_temperature: 60
+      temperature_step: 0.1
