@@ -21,18 +21,8 @@ api:
   custom_services: true
 
 # OTA is required for Over-the-Air updating
-# http_request:
-#   buffer_size_rx: 4096
-
 ota:
   - platform: esphome
-    password: !secret ota_password
-  # - platform: http_request
-
-# update:
-#   - platform: http_request
-#     id: update_http_request
-#     source: https://github.com/rsre/esphome-altherma/releases/latest/download/esphome-altherma.manifest.json
 
 # dashboard_import:
 #   package_import_url: github://rsre/esphome-altherma/esphome-altherma-esp32.device-builder.yaml@main
