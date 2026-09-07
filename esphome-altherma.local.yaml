@@ -14,7 +14,3 @@ wifi:
 ota:
   - platform: esphome
     password: !secret ota_password
-external_components:
-  - source: github://esphome/esphome@dev
-    components: [template]
-    refresh: 1min
