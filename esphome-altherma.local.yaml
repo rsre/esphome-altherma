@@ -15,6 +15,6 @@ ota:
   - platform: esphome
     password: !secret ota_password
 external_components:
-  - source: github://pr#14455
+  - source: github://esphome/esphome@dev
     components: [template]
     refresh: 1min

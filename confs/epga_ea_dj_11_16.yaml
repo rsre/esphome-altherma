@@ -1635,6 +1635,23 @@ text_sensor:
     offset: 2
     convid: 315
     datasize: 1
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: |-
+                return x == "Stop" || x == "DHW" ||
+                       x == "Heating" || x == "Heating + DHW" ||
+                       x == "Cooling" || x == "Cooling + DHW";
+            then:
+              - climate.template.publish:
+                  id: altherma_climate
+                  mode: !lambda |-
+                    if (x == "Heating" || x == "Heating + DHW")
+                      return climate::CLIMATE_MODE_HEAT;
+                    if (x == "Cooling" || x == "Cooling + DHW")
+                      return climate::CLIMATE_MODE_COOL;
+                    return climate::CLIMATE_MODE_OFF;
 
   # {0x60,3,204,1,-1,"Error Code"}
   - <<: *text
@@ -1795,30 +1812,13 @@ climate:
   - platform: template
     id: altherma_climate
     name: "Altherma Climate"
-    current_temperature: !lambda return id(leaving_water_temp_before_buh).state;
-    mode: !lambda |-
-      static const std::map<std::string, climate::ClimateMode> mode_map = {
-        {"Stop", climate::CLIMATE_MODE_OFF},
-        {"DHW", climate::CLIMATE_MODE_OFF},
-        {"Heating", climate::CLIMATE_MODE_HEAT},
-        {"Heating + DHW", climate::CLIMATE_MODE_HEAT},
-        {"Cooling", climate::CLIMATE_MODE_COOL},
-        {"Cooling + DHW", climate::CLIMATE_MODE_COOL},
-      };
-
-      const std::string &m = id(iu_operation_mode).state;
-
-      auto it = mode_map.find(m);
-      if (it != mode_map.end()) {
-        return it->second;
-      }
-
-      return {};  // Unavailable
-
+    sensor: leaving_water_temp_before_buh
     supported_modes:
       - "OFF"
       - HEAT
       - COOL
+    optimistic: false
+    restore_mode: NO_RESTORE
     visual:
       min_temperature: 20
       max_temperature: 60
