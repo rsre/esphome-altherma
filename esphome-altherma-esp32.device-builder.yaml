@@ -18,6 +18,7 @@ esp32:
 api:
   encryption:
    key: X/jdz+YqaOO50596YXNrF0qdF88i9kFWa7IkvmM3X4s=
+  custom_services: true
 
 # OTA is required for Over-the-Air updating
 # http_request:
