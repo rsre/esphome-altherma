@@ -4,7 +4,7 @@ esphome:
   name_add_mac_suffix: false
   project:
       name: rsre.esphome-altherma
-      version: 0.0.17
+      version: 0.0.18
 
 # Enable logging
 logger:
@@ -17,7 +17,7 @@ esp32:
 # Enable ESPHome API
 api:
   encryption:
-   key: X/jdz+YqaOO50596YXNrF0qdF88i9kFWa7IkvmM3X4s=
+    key: !secret ha_api_key
   custom_services: true
 
 ota:
@@ -31,7 +31,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Altherma Fallback Hotspot"
-    password: "bVMoXw4ATPxA"
+    password: !secret hotspot_password
 
 # In combination with the `ap` this allows the user
 # to provision wifi credentials to the device.
