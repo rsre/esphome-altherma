@@ -48,7 +48,7 @@ sensor:
     convid: 105
     datasize: 2
   # - <<: *temp
-  #   name: O/U Heat Exch. Temp.
+  #   name: O⁄U Heat Exch. Temp.
   #   register: 0x20
   #   offset: 2
   #   convid: 105
@@ -198,7 +198,7 @@ sensor:
   #   datasize: 2
   # Returns: 0
   - <<: *altherma_base
-    name: Flow sensor (l/min)
+    name: Flow sensor (l⁄min)
     register: 0x62
     offset: 9
     convid: 105
@@ -231,7 +231,7 @@ binary_sensor:
     convid: 304
     datasize: 1
   - <<: *binary
-    name: Thermostat ON/OFF
+    name: Thermostat ON⁄OFF
     device_class: running
     register: 0x60
     offset: 2
@@ -283,7 +283,7 @@ binary_sensor:
     convid: 303
     datasize: 1
   - <<: *binary
-    name: Powerful DHW Operation. ON/OFF
+    name: Powerful DHW Operation. ON⁄OFF
     register: 0x62
     offset: 2
     convid: 304
@@ -291,7 +291,7 @@ binary_sensor:
 
 text_sensor:
   - <<: *text
-    name: I/U operation mode
+    name: I⁄U operation mode
     icon: mdi:state-machine
     register: 0x60
     offset: 2

@@ -1,0 +1,244 @@
+blueprint:
+  name: Emoncms heat pump sender
+  description: Send selected heat pump sensors to Emoncms on a schedule
+  domain: automation
+  input:
+    emoncms_node:
+      name: Emoncms node
+      default: ESPHome_Altherma
+      selector:
+        text:
+
+    interval_seconds:
+      name: Interval in seconds
+      description: Use /30 for every 30 seconds
+      default: "/30"
+      selector:
+        text:
+
+    heatpump_primary_current:
+      name: heatpump_primary_current
+      description: Used to calculate Electric use in watts (heatpump_elec), typical ESPHome Altherma - INV primary current (A)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+
+    heatpump_voltage:
+      name: heatpump_voltage
+      description: Used to calculate Electric use in watts, typical ESPHome Altherma - Voltage (N-phase) (V)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+
+    # heatpump_elec:
+    #   name: heatpump_elec
+    #   description: Electric use in watts, typical ESPHome Altherma - Inverter Power
+    #   default: ""
+    #   selector:
+    #     entity:
+    #       domain: sensor
+
+    heatpump_flowT:
+      name: heatpump_flowT
+      description: Flow temperature, typical ESPHome Altherma - Leaving water temp. after BUH (R2T)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_returnT:
+      name: heatpump_returnT
+      description: Return temperature, typical ESPHome Altherma - Inlet water temp. (R4T)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_outsideT:
+      name: heatpump_outsideT
+      description: Outside temperature, typical ESPHome Altherma - Outdoor air temp. (R1T)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_roomT:
+      name: heatpump_roomT
+      description: Room temperature, typical provided by separate temperature sensor in your home
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_targetT:
+      name: heatpump_targetT
+      description: Target room or flow temperature, typical ESPHome Altherma - LW setpoint (main)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_flowrate:
+      name: heatpump_flowrate
+      description: Flow rate, typical ESPHome Altherma - Flow sensor (l⁄min)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+
+    heatpump_dhw:
+      name: heatpump_dhw
+      description: Domestic hot water status (non-zero when running), typical ESPHome Altherma - 3way valve(On:DHW_Off:Space)
+      default: ""
+      selector:
+        entity:
+          domain: binary_sensor
+
+    # heatpump_cooling:
+    #   name: heatpump_cooling, typical not in use
+    #   description: "Cooling status (0: not cooling, 1: cooling)"
+    #   default: ""
+    #   selector:
+    #     entity:
+    #       domain: binary_sensor
+
+    heatpump_dhwT:
+      name: heatpump_dhwT
+      description: Domestic hot water temperature, typical ESPHome Altherma - DHW tank temp. (R5T)
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    heatpump_dhwTargetT:
+      name: heatpump_dhwTargetT
+      description: Target domestic hot water temperature, typical ESPHome Altherma - DHW setpoint
+      default: ""
+      selector:
+        entity:
+          domain: sensor
+          device_class: temperature
+
+    buh_step1:
+      name: BUH Step 1
+      description: Binary sensor for backup heater step 1, typical ESPHome Altherma - BUH Step1
+      default: ""
+      selector:
+        entity:
+          domain: binary_sensor
+
+    buh_step1_power:
+      name: BUH Step 1 power
+      description: Power in watts added when BUH Step 1 is on
+      default: 2000
+      selector:
+        number:
+          unit_of_measurement: W
+
+    buh_step2:
+      name: BUH Step 2
+      description: Binary sensor for backup heater step 2, typical ESPHome Altherma - BUH Step2
+      default: ""
+      selector:
+        entity:
+          domain: binary_sensor
+
+    buh_step2_power:
+      name: BUH Step 2 power
+      description: Power in watts added when BUH Step 2 is on
+      default: 4000
+      selector:
+        number:
+          unit_of_measurement: W
+
+mode: single
+
+triggers:
+  - trigger: time_pattern
+    seconds: !input interval_seconds
+
+variables:
+  emoncms_node: !input emoncms_node
+  heatpump_primary_current: !input heatpump_primary_current
+  heatpump_voltage: !input heatpump_voltage
+  #heatpump_elec: !input heatpump_elec
+  heatpump_flowT: !input heatpump_flowT
+  heatpump_returnT: !input heatpump_returnT
+  heatpump_outsideT: !input heatpump_outsideT
+  heatpump_roomT: !input heatpump_roomT
+  heatpump_targetT: !input heatpump_targetT
+  heatpump_flowrate: !input heatpump_flowrate
+  heatpump_dhw: !input heatpump_dhw
+  #heatpump_cooling: !input heatpump_cooling
+  heatpump_dhwT: !input heatpump_dhwT
+  heatpump_dhwTargetT: !input heatpump_dhwTargetT
+  buh_step1: !input buh_step1
+  buh_step2: !input buh_step2
+  buh_step1_power: !input buh_step1_power
+  buh_step2_power: !input buh_step2_power
+
+actions:
+  - variables:
+      payload: >
+        {% set ns = namespace(d={}) %}
+        {# 'heatpump_elec': heatpump_elec, #}
+        {# 'heatpump_cooling': heatpump_cooling, #}
+        {% set mapping = {
+          'heatpump_flowT': heatpump_flowT,
+          'heatpump_returnT': heatpump_returnT,
+          'heatpump_outsideT': heatpump_outsideT,
+          'heatpump_roomT': heatpump_roomT,
+          'heatpump_targetT': heatpump_targetT,
+          'heatpump_flowrate': heatpump_flowrate,
+          'heatpump_dhw': heatpump_dhw,
+          'heatpump_dhwT': heatpump_dhwT,
+          'heatpump_dhwTargetT': heatpump_dhwTargetT
+        } %}
+
+        {% for key, entity_id in mapping.items() %}
+          {% if entity_id is string and entity_id | trim != '' %}
+            {% set s = states(entity_id) %}
+            {% if s not in ['unknown', 'unavailable', 'none', ''] %}
+              {% if entity_id.startswith('binary_sensor.') %}
+                {% set val = 1 if is_state(entity_id, 'on') else 0 %}
+              {% else %}
+                {% set val = s | float(none) %}
+              {% endif %}
+              {% if val is not none %}
+                {% set ns.d = dict(ns.d, **{key: val}) %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {# Calculate heatpump_elec from heatpump_primary_current and heatpump_voltage #}
+        {% set current = states(heatpump_primary_current) | float(none) %}
+        {% set voltage = states(heatpump_voltage) | float(none) %}
+        {# Add calculated elec after the loop #}
+        {% if current is not none and voltage is not none %}
+          {% set ns.d = dict(ns.d, **{'heatpump_elec': current * voltage}) %}
+        {% endif %}
+
+        {% set immersion = namespace(power=0) %}
+        {% if buh_step1 is string and buh_step1 | trim != '' and is_state(buh_step1, 'on') %}
+          {% set immersion.power = immersion.power + (buh_step1_power | float(0)) %}
+        {% endif %}
+        {% if buh_step2 is string and buh_step2 | trim != '' and is_state(buh_step2, 'on') %}
+          {% set immersion.power = immersion.power + (buh_step2_power | float(0)) %}
+        {% endif %}
+        {% set ns.d = dict(ns.d, **{'immersion_elec': immersion.power}) %}
+
+        {{ ns.d | tojson }}
+
+  - action: rest_command.emoncms_post
+    data:
+      node: "{{ emoncms_node }}"
+      payload: "{{ payload }}"

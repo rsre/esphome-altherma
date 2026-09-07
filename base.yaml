@@ -14,6 +14,7 @@ logger:
 
 # API is a requirement of the dashboard import.
 api:
+  custom_services: true
 
 # OTA is required for Over-the-Air updating
 ota:
@@ -43,11 +44,20 @@ external_components:
   - source:
       type: local
       path: components
+  - source: github://esphome/esphome@dev
+    components: [template]
 
 altherma_hub:
   id: altherma_hub_1
   uart_id: uart_bus
   update_interval: 30s
+  query_result_text_sensor: query_registry_result
+
+text_sensor:
+  - platform: template
+    name: "Manual Query Registry Result"
+    id: query_registry_result
+    entity_category: diagnostic
 
 # select:
 #   - platform: template
@@ -59,7 +69,18 @@ altherma_hub:
 #     optimistic: true
 
 packages:
+  # Uncomment below if you want to have diagnostic information about the ESP module
+  # common_diagnostics: !include common/diagnostics.yaml
+
   # Uncomment below if you want to "Take Control" in ESPHome Device Builder
   # altherma_sensors: !include github://rsre/esphome-altherma/confs/erga_eh_da_04_08.yaml@main
+  # Alternative model mapping for EBSXB16P50DF / ERLA D EBSH-X 11-16kW-ECH2O:
+  # altherma_sensors: !include github://rsre/esphome-altherma/confs/erla_d_ebsh_11_16_ech2o.yaml@main
+  # Alternative model mapping for Daikin Altherma LT CA/CB EHVH-CB / EHVX-CB 11-16kW:
+  # altherma_sensors: !include github://rsre/esphome-altherma/confs/altherma_ehvh_ehvx_cb.yaml@main
   # Comment below if you want to "Take Control" in ESPHome Device Builder
   altherma_sensors: !include confs/epga_ea_dj_11_16.yaml
+  # Alternative model mapping for EBSXB16P50DF / ERLA D EBSH-X 11-16kW-ECH2O:
+  # altherma_sensors: !include confs/erla_d_ebsh_11_16_ech2o.yaml
+  # Alternative model mapping for Daikin Altherma LT CA/CB EHVH-CB / EHVX-CB 11-16kW:
+  # altherma_sensors: !include confs/altherma_ehvh_ehvx_cb.yaml

@@ -10,12 +10,15 @@ permissions:
 jobs:
   build-firmware:
     name: Build Firmware
-    uses: esphome/workflows/.github/workflows/build.yml@2025.10.0
+    uses: esphome/workflows/.github/workflows/build.yml@2026.7.0
     with:
       #### Modify below here to match your project ####
       files: |
         esphome-altherma-esp32.factory.yaml
-      esphome-version: 2026.2.2
+        esphome-altherma-esp32-s3.factory.yaml
+        esphome-altherma-atoms3.factory.yaml
+        esphome-altherma-esp8266.factory.yaml
+      esphome-version: dev
       combined-name: esphome-altherma
       #### Modify above here to match your project ####
 
@@ -25,7 +28,7 @@ jobs:
 
   upload-to-release:
     name: Upload to Release
-    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2025.10.0
+    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2026.7.0
     needs:
       - build-firmware
     with:

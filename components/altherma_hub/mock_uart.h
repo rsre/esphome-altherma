@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/components/uart/uart_component.h"
+#include "esphome/core/version.h"
 #include <queue>
 #include <vector>
 
@@ -22,11 +23,11 @@ namespace esphome
                 return rx_buffer_.size();
             }
 
-            uart::FlushResult flush() override {
+            esphome::uart::UARTFlushResult flush() override {
                 while (!rx_buffer_.empty()) {
                     rx_buffer_.pop();
                 }
-                return uart::FlushResult::SUCCESS;
+                return esphome::uart::UARTFlushResult::UART_FLUSH_RESULT_SUCCESS;
             }
 
             bool read_byte(uint8_t *data) {
