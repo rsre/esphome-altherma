@@ -27,4 +27,4 @@ captive_portal:
 # OTA is required for Over-the-Air updating
 ota:
   - platform: esphome
-    password: !secret ota_password
+    encryption:
