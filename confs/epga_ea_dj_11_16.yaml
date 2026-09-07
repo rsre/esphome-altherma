@@ -528,6 +528,11 @@ sensor:
     offset: 9
     convid: 105
     datasize: 2
+    on_value:
+      then:
+        - climate.template.publish:
+            id: altherma_climate
+            target_temperature: !lambda "return x;"
 
   # {0x60,13,152,1,-1,"Indoor Option Code"}
   # - <<: *altherma_base
@@ -830,6 +835,7 @@ binary_sensor:
 
   # {0x10,1,307,1,-1,"Thermostat ON/OFF"}
   - <<: *binary
+    id: thermostat_ou
     name: Thermostat (O⁄U)
     device_class: running
     register: 0x10
@@ -856,6 +862,7 @@ binary_sensor:
 
   # {0x10,1,304,1,-1,"Defrost Operation"}
   - <<: *binary
+    id: defrost_operation
     name: Defrost Operation
     device_class: cold
     register: 0x10
@@ -1091,6 +1098,7 @@ binary_sensor:
 
   # {0x60,2,301,1,-1,"Silent Mode"}
   - <<: *binary
+    id: silent_mode
     name: Silent Mode
     device_class: sound
     register: 0x60
@@ -1652,6 +1660,22 @@ text_sensor:
                     if (x == "Cooling" || x == "Cooling + DHW")
                       return climate::CLIMATE_MODE_COOL;
                     return climate::CLIMATE_MODE_OFF;
+                  action: !lambda |-
+                    if (id(system_off_flag).state || x == "Stop" || x == "DHW")
+                      return climate::CLIMATE_ACTION_OFF;
+                    if (id(defrost_operation).state)
+                      return climate::CLIMATE_ACTION_DEFROSTING;
+                    if (id(thermostat_ou).state || id(space_heating_op).state)
+                      return climate::CLIMATE_ACTION_HEATING;
+                    return climate::CLIMATE_ACTION_IDLE;
+                  custom_preset: !lambda |-
+                    if (x == "DHW" || x == "Heating + DHW" || x == "Cooling + DHW")
+                      return std::string("DHW");
+                    if (id(powerful_dhw_op).state)
+                      return std::string("Powerful DHW");
+                    if (id(silent_mode).state)
+                      return std::string("Silent");
+                    return std::string("Normal");
 
   # {0x60,3,204,1,-1,"Error Code"}
   - <<: *text
@@ -1817,9 +1841,14 @@ climate:
       - "OFF"
       - HEAT
       - COOL
+    supports_action: true
+    custom_presets:
+      - "Normal"
+      - "DHW"
+      - "Powerful DHW"
+      - "Silent"
     optimistic: false
     restore_mode: NO_RESTORE
-    supports_action: true
     visual:
       min_temperature: 20
       max_temperature: 60
